@@ -1,0 +1,129 @@
+# Java Security Issues
+
+> 最完整的 Java & LLM 应用软件安全问题知识库
+> The most comprehensive knowledge base for Java & LLM application security issues.
+
+## 项目定位
+
+系统化整理 Java & LLM 应用软件安全问题，覆盖传统 Java 安全（OWASP Top 10、CWE Top 25）
+和 LLM 应用安全（OWASP LLM Top 10、Prompt 注入、模型安全等），为安全治理、代码审计
+和安全培训提供基础支撑。
+
+## AI 读取建议
+
+如果你是 AI 工具，建议按以下顺序读取：
+
+1. 先读 `data/issues.json` — 包含所有安全问题的结构化索引，每条记录含 doc_path 指向详细文档
+2. 再读具体漏洞文档 `docs/vulnerabilities/{category}/{id}.md`
+3. 检测规则在 `docs/tools/semgrep-rules/` 目录
+
+## 核心文件
+
+- [结构化数据索引](data/issues.json)：40 条安全问题，JSON 格式，优先读取
+- [JSON Schema](data/issues.schema.json)：issues.json 的数据约束定义
+- [贡献指南（AI 版）](AGENTS.md)：AI 工具贡献内容时必读
+
+## 分类体系
+
+### 传统 Java 安全
+
+- [OWASP Top 10:2025](docs/classification/owasp-top10.md)
+- [CWE Top 25:2025](docs/classification/cwe-top25.md)
+- [Java 专项分类](docs/classification/java-specific.md)
+
+### LLM 应用安全
+
+- [OWASP LLM Top 10](docs/classification/owasp-llm-top10.md)
+- [AI 安全动态](docs/news/ai-security.md)
+
+## 漏洞文档索引
+
+### 注入类
+
+- [SQL 注入](docs/vulnerabilities/injection/sql-injection.md) — CWE-89, A05:2025, Critical
+- [命令注入](docs/vulnerabilities/injection/command-injection.md) — CWE-78, A05:2025, Critical
+- [SSTI 模板注入](docs/vulnerabilities/injection/ssti.md) — CWE-1336, A05:2025, Critical
+- [SpEL 注入](docs/vulnerabilities/injection/spel-injection.md) — CWE-94, A05:2025, Critical
+- [ScriptEngine/Groovy RCE](docs/vulnerabilities/injection/script-engine-rce.md) — CWE-94, A05:2025, Critical
+- [CRLF 注入](docs/vulnerabilities/injection/crlf-injection.md) — CWE-113, A05:2025, Medium
+- [开放重定向](docs/vulnerabilities/injection/open-redirect.md) — CWE-601, A01:2025, Medium
+- [QLExpress RCE](docs/vulnerabilities/injection/qlexpress-rce.md) — CWE-94, A05:2025, High
+- [SSRF](docs/vulnerabilities/injection/ssrf.md) — CWE-918, A10:2025, High
+- [XXE](docs/vulnerabilities/injection/xxe.md) — CWE-611, A05:2025, High
+- [XSS](docs/vulnerabilities/injection/xss.md) — CWE-79, A05:2025, High
+
+### 文件操作类
+
+- [路径遍历](docs/vulnerabilities/file-operations/path-traversal.md) — CWE-22
+- [任意文件上传](docs/vulnerabilities/file-operations/file-upload.md) — CWE-434
+
+### 反序列化类
+
+- [Java 反序列化](docs/vulnerabilities/deserialization/deserialization.md) — CWE-502, Critical
+- [XStream 反序列化](docs/vulnerabilities/deserialization/xstream-deserialization.md) — CWE-502, Critical
+- [Java RMI 反序列化](docs/vulnerabilities/deserialization/java-rmi.md) — CWE-502, High
+
+### 认证授权类
+
+- [CSRF](docs/vulnerabilities/authentication/csrf.md) — CWE-352, A01:2025, High
+- [JWT 安全漏洞](docs/vulnerabilities/authentication/jwt-vulnerability.md) — CWE-327, A07:2025, High
+- [IP 伪造](docs/vulnerabilities/authentication/ip-forgery.md) — CWE-290, A01:2025, Medium
+- [JSONP 劫持](docs/vulnerabilities/authentication/jsonp-hijacking.md) — CWE-346, A01:2025, Medium
+- [URL 白名单绕过](docs/vulnerabilities/authentication/url-whitelist-bypass.md) — CWE-20, A01:2025, Medium
+- [认证授权漏洞总览](docs/vulnerabilities/authentication/README.md)
+
+### 配置安全类
+
+- [CORS 配置错误](docs/vulnerabilities/configuration/cors-misconfiguration.md) — CWE-942, Medium
+- [Actuator 未授权访问](docs/vulnerabilities/configuration/actuator.md) — CWE-16, High
+- [Swagger 信息泄露](docs/vulnerabilities/configuration/swagger-info-disclosure.md) — CWE-200, Low
+- [安全配置错误](docs/vulnerabilities/configuration/security-misconfiguration.md) — CWE-16, Medium
+
+### 加密安全类
+
+- [加密机制失效](docs/vulnerabilities/crypto/crypto-failure.md) — CWE-327, High
+
+### LLM 应用安全
+
+- [Prompt 注入](docs/vulnerabilities/llm/prompt-injection.md) — LLM01, CWE-94, Critical
+
+## 框架专项
+
+- [Spring 框架安全](docs/frameworks/spring.md)
+
+## 检测规则
+
+- [SQL 注入规则](docs/tools/semgrep-rules/sql-injection.yml)
+- [反序列化规则](docs/tools/semgrep-rules/deserialization.yml)
+- [LLM 安全规则](docs/tools/semgrep-rules/llm-security.yml)
+
+## 代码示例
+
+- [漏洞代码示例](examples/vulnerable/) — 带 [VULNERABLE] 标注
+- [安全代码示例](examples/secure/) — 带 [SECURE] 标注
+
+## 数据格式说明
+
+`data/issues.json` 每条记录结构：
+
+```json
+{
+  "id": "漏洞唯一标识（大写+连字符）",
+  "name": "漏洞中文名",
+  "name_en": "漏洞英文名",
+  "category": "分类（injection/file-operations/authentication/deserialization/crypto/configuration/business-logic/frameworks/llm）",
+  "owasp": "OWASP 编号",
+  "cwe": ["CWE 编号列表"],
+  "severity": "严重程度（critical/high/medium/low）",
+  "description": "简要描述",
+  "java_affected": ["受影响的 Java 组件"],
+  "doc_path": "详细文档路径",
+  "mitigation": ["修复措施"],
+  "tags": ["标签"],
+  "last_updated": "最后更新日期"
+}
+```
+
+## 变更贡献
+
+新增内容请参考 [AGENTS.md](AGENTS.md)（AI 工具）或 [贡献指南](contributing/how-to-contribute.md)（人工贡献）。

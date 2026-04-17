@@ -1,0 +1,53 @@
+# .gitignore
+
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# Package Files
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# IDE
+.idea/
+*.iml
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+# Gradle
+.gradle/
+build/
+
+# Node (if any web assets)
+node_modules/
+
+# Temp files
+*.tmp
+*.temp
+*.bak
+
+# 敏感信息（绝对不能提交）
+.env
+*.key
+secrets/
+credentials.json

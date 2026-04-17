@@ -1,0 +1,46 @@
+name: 文档改进建议
+description: 对现有文档内容提出改进建议或报告错误
+title: "[DOCS] "
+labels: ["documentation", "needs-review"]
+body:
+  - type: input
+    id: doc-path
+    attributes:
+      label: 文档路径
+      placeholder: docs/vulnerabilities/injection/sql-injection.md
+    validations:
+      required: true
+
+  - type: dropdown
+    id: issue-type
+    attributes:
+      label: 问题类型
+      options:
+        - 内容错误（技术信息有误）
+        - 内容过时（需要更新）
+        - 内容缺失（需要补充）
+        - 代码示例问题
+        - 格式问题
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: 问题描述
+    validations:
+      required: true
+
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: 改进建议
+      description: 如有具体改进内容，请在此提供
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: 检查
+      options:
+        - label: 我已搜索现有 Issue，确认没有重复
+          required: true

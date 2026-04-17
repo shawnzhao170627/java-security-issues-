@@ -1,0 +1,31 @@
+issue_id,cwe_id,cwe_name,severity,owasp_mapping
+SQL-INJECTION,CWE-89,SQL Injection,critical,A05:2025
+XSS,CWE-79,Cross-site Scripting,high,A05:2025
+COMMAND-INJECTION,CWE-78,OS Command Injection,critical,A05:2025
+COMMAND-INJECTION,CWE-77,Command Injection,high,A05:2025
+CODE-INJECTION,CWE-94,Code Injection,critical,A05:2025
+PATH-TRAVERSAL,CWE-22,Path Traversal,high,A01:2025
+FILE-UPLOAD,CWE-434,Unrestricted File Upload,critical,A04:2021
+DESERIALIZATION,CWE-502,Deserialization of Untrusted Data,critical,A08:2025
+BROKEN-ACCESS-CONTROL,CWE-862,Missing Authorization,high,A01:2025
+BROKEN-ACCESS-CONTROL,CWE-863,Incorrect Authorization,high,A01:2025
+BROKEN-ACCESS-CONTROL,CWE-284,Improper Access Control,high,A01:2025
+BROKEN-ACCESS-CONTROL,CWE-639,Authorization Bypass Through User-Controlled Key,high,A01:2025
+AUTHENTICATION-BYPASS,CWE-287,Improper Authentication,critical,A07:2025
+AUTHENTICATION-BYPASS,CWE-306,Missing Authentication for Critical Function,critical,A07:2025
+SSRF,CWE-918,Server-Side Request Forgery,high,A10:2021
+XXE,CWE-611,Improper Restriction of XML External Entity Reference,high,A05:2021
+CRYPTO-FAILURE,CWE-327,Use of Broken or Risky Cryptographic Algorithm,high,A04:2025
+CRYPTO-FAILURE,CWE-798,Use of Hard-coded Credentials,critical,A04:2025
+CRYPTO-FAILURE,CWE-311,Missing Encryption of Sensitive Data,high,A04:2025
+SECURITY-MISCONFIGURATION,CWE-16,Configuration,medium,A02:2025
+SECURITY-MISCONFIGURATION,CWE-260,Default Password,medium,A02:2025
+SENSITIVE-DATA-EXPOSURE,CWE-200,Exposure of Sensitive Information,medium,A04:2025
+CSRF,CWE-352,Cross-Site Request Forgery,high,A05:2025
+LOG-INJECTION,CWE-117,Improper Output Neutralization for Logs,medium,A09:2025
+INFO-EXPOSURE,CWE-209,Information Exposure Through Error Message,medium,A02:2025
+NULL-DEREFERENCE,CWE-476,NULL Pointer Dereference,medium,N/A
+BUFFER-OVERFLOW,CWE-120,Buffer Copy without Checking Size,high,N/A
+BUFFER-OVERFLOW,CWE-787,Out-of-bounds Write,critical,N/A
+RACE-CONDITION,CWE-362,Race Condition,medium,N/A
+REDOS,CWE-1333,Inefficient Regular Expression Complexity,medium,N/A

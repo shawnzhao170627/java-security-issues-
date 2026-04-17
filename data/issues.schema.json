@@ -1,0 +1,161 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/your-org/java-security-issues/data/issues.schema.json",
+  "title": "Java Security Issues",
+  "description": "Java & LLM 应用安全问题知识库数据 Schema",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": ["id", "name", "name_en", "category", "severity", "description", "description_en", "doc_path"],
+    "additionalProperties": false,
+    "properties": {
+      "id": {
+        "type": "string",
+        "description": "漏洞唯一标识，大写字母+连字符",
+        "pattern": "^[A-Z][A-Z0-9-]+$",
+        "examples": ["SQL-INJECTION", "PROMPT-INJECTION", "LOG4J-RCE"]
+      },
+      "name": {
+        "type": "string",
+        "description": "漏洞中文名称",
+        "minLength": 2,
+        "maxLength": 50
+      },
+      "name_en": {
+        "type": "string",
+        "description": "漏洞英文名称",
+        "minLength": 2,
+        "maxLength": 100
+      },
+      "category": {
+        "type": "string",
+        "description": "漏洞分类",
+        "enum": [
+          "injection",
+          "file-operations",
+          "authentication",
+          "deserialization",
+          "crypto",
+          "configuration",
+          "business-logic",
+          "frameworks",
+          "llm"
+        ]
+      },
+      "owasp": {
+        "type": "string",
+        "description": "OWASP Top 10 映射（传统安全）",
+        "pattern": "^A\\d{2}:\\d{4}$",
+        "examples": ["A05:2025", "A01:2025"]
+      },
+      "owasp_llm": {
+        "type": "string",
+        "description": "OWASP LLM Top 10 映射",
+        "pattern": "^LLM\\d{2}$",
+        "examples": ["LLM01", "LLM08"]
+      },
+      "cwe": {
+        "type": "array",
+        "description": "CWE 编号列表",
+        "items": {
+          "type": "string",
+          "pattern": "^CWE-\\d+$"
+        },
+        "minItems": 1
+      },
+      "severity": {
+        "type": "string",
+        "description": "严重程度",
+        "enum": ["critical", "high", "medium", "low"]
+      },
+      "description": {
+        "type": "string",
+        "description": "漏洞一句话描述（中文）",
+        "minLength": 5,
+        "maxLength": 200
+      },
+      "description_en": {
+        "type": "string",
+        "description": "漏洞一句话描述（英文）",
+        "minLength": 5,
+        "maxLength": 200
+      },
+      "java_affected": {
+        "type": "array",
+        "description": "受影响的 Java 组件、框架或 API",
+        "items": {
+          "type": "string"
+        }
+      },
+      "doc_path": {
+        "type": "string",
+        "description": "详细文档的相对路径",
+        "pattern": "^docs/",
+        "examples": ["docs/vulnerabilities/injection/sql-injection.md"]
+      },
+      "examples": {
+        "type": "object",
+        "description": "代码示例文件路径",
+        "properties": {
+          "vulnerable": {
+            "type": "string",
+            "pattern": "^examples/vulnerable/",
+            "description": "漏洞代码示例路径"
+          },
+          "secure": {
+            "type": "string",
+            "pattern": "^examples/secure/",
+            "description": "安全代码示例路径"
+          }
+        }
+      },
+      "semgrep_rule": {
+        "type": "string",
+        "description": "对应的 Semgrep 规则文件路径",
+        "pattern": "^docs/tools/semgrep-rules/"
+      },
+      "detection_methods": {
+        "type": "array",
+        "description": "检测方法列表",
+        "items": {
+          "type": "string"
+        }
+      },
+      "mitigation": {
+        "type": "array",
+        "description": "修复/缓解措施列表",
+        "items": {
+          "type": "string"
+        },
+        "minItems": 1
+      },
+      "tags": {
+        "type": "array",
+        "description": "标签，用于辅助搜索和分类",
+        "items": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+$"
+        }
+      },
+      "last_updated": {
+        "type": "string",
+        "description": "最后更新日期",
+        "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+        "examples": ["2026-04-17"]
+      },
+      "deprecated": {
+        "type": "boolean",
+        "description": "是否已废弃，废弃条目不删除，标记为 true",
+        "default": false
+      },
+      "references": {
+        "type": "array",
+        "description": "参考资料链接",
+        "items": {
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    }
+  }
+}

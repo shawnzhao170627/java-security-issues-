@@ -1,0 +1,80 @@
+rules:
+  - id: java-sql-injection-string-concat
+    patterns:
+      - pattern-inside: |
+          String $SQL = ... + $VAR + ...;
+          ...
+      - pattern-either:
+          - pattern: |
+              $STMT.executeQuery($SQL);
+          - pattern: |
+              $CONN.createStatement().executeQuery($SQL);
+    message: |
+      检测到 SQL 注入风险：字符串拼接构建 SQL 语句。
+      请使用 PreparedStatement 或参数化查询代替字符串拼接。
+      SQL Injection detected: String concatenation to build SQL query.
+      Use PreparedStatement or parameterized queries instead.
+    severity: ERROR
+    languages:
+      - java
+    metadata:
+      category: security
+      cwe:
+        - CWE-89
+      owasp:
+        - A05:2025 - Injection
+      confidence: HIGH
+      references:
+        - https://owasp.org/www-community/attacks/SQL_Injection
+        - https://cwe.mitre.org/data/definitions/89.html
+
+  - id: java-sql-injection-mybatis-dollar
+    patterns:
+      - pattern: |
+          ${...}
+      - pattern-inside: |
+          @Select("$SQL")
+          ...
+      - pattern-not-inside: |
+          #{...}
+    message: |
+      检测到 MyBatis SQL 注入风险：使用 ${} 直接拼接 SQL。
+      请使用 #{} 参数化语法代替 ${}。
+      MyBatis SQL Injection detected: Using ${} for string interpolation.
+      Use #{} for parameterized queries instead.
+    severity: ERROR
+    languages:
+      - java
+    metadata:
+      category: security
+      cwe:
+        - CWE-89
+      owasp:
+        - A05:2025 - Injection
+      confidence: HIGH
+      references:
+        - https://mybatis.org/mybatis-3/sqlmap-xml.html
+        - https://cwe.mitre.org/data/definitions/89.html
+
+  - id: java-sql-injection-jpa-concat
+    patterns:
+      - pattern: |
+          $EM.createQuery("..." + $VAR + "...");
+    message: |
+      检测到 JPA SQL 注入风险：字符串拼接构建 JPQL 查询。
+      请使用命名参数 :param 或位置参数 ?1。
+      JPA SQL Injection detected: String concatenation in JPQL query.
+      Use named parameters (:param) or positional parameters (?1) instead.
+    severity: ERROR
+    languages:
+      - java
+    metadata:
+      category: security
+      cwe:
+        - CWE-89
+      owasp:
+        - A05:2025 - Injection
+      confidence: HIGH
+      references:
+        - https://docs.oracle.com/javaee/6/tutorial/doc/bnbrg.html
+        - https://cwe.mitre.org/data/definitions/89.html

@@ -1,0 +1,176 @@
+rules:
+  # ============================================
+  # LLM 应用安全检测规则
+  # ============================================
+
+  # Prompt 注入风险
+  - id: java-llm-prompt-injection-risk
+    patterns:
+      - pattern-either:
+          - pattern: |
+              $MODEL.call($USER_INPUT + ...)
+          - pattern: |
+              $MODEL.call("..." + $USER_INPUT)
+          - pattern: |
+              String $PROMPT = "..." + $USER_INPUT;
+              ...
+              $MODEL.call($PROMPT);
+    message: |
+      检测到可能的 Prompt 注入风险：用户输入直接拼接到 Prompt 中。
+      建议使用 ChatClient 进行指令隔离，并对用户输入进行净化。
+    severity: ERROR
+    languages:
+      - java
+    metadata:
+      category: security
+      subcategory: llm-security
+      references:
+        - https://owasp.org/www-project-top-10-for-large-language-model-applications/
+
+  # 硬编码 API 密钥
+  - id: java-llm-hardcoded-api-key
+    patterns:
+      - pattern-either:
+          - pattern: |
+              .apiKey("$KEY")
+          - pattern: |
+              .apiKey("$KEY")
+      - metavariable-regex:
+          metavariable: $KEY
+          regex: "(sk-[a-zA-Z0-9]{20,}|[a-zA-Z0-9]{32,})"
+    message: |
+      检测到硬编码的 API 密钥。请使用环境变量或密钥管理服务。
+      示例：.apiKey(System.getenv("OPENAI_API_KEY"))
+    severity: ERROR
+    languages:
+      - java
+    metadata:
+      category: security
+      subcategory: llm-security
+      cwe: CWE-798
+
+  # 不安全的工具设计
+  - id: java-llm-unsafe-tool
+    patterns:
+      - pattern-either:
+          - pattern: |
+              @Tool
+              public String $FUNC(String $PARAM) {
+                Runtime.getRuntime().exec($PARAM);
+                ...
+              }
+          - pattern: |
+              @Tool
+              public String $FUNC(String $PARAM) {
+                new ProcessBuilder($PARAM);
+                ...
+              }
+    message: |
+      检测到不安全的 LLM 工具设计：允许执行系统命令。
+      LLM 工具应遵循最小权限原则，避免执行危险操作。
+    severity: ERROR
+    languages:
+      - java
+    metadata:
+      category: security
+      subcategory: llm-security
+
+  # 无限制的 LLM 调用
+  - id: java-llm-no-resource-limit
+    patterns:
+      - pattern: |
+          @PostMapping
+          public String $METHOD(@RequestBody String $INPUT) {
+            ...
+            return $MODEL.call($INPUT);
+          }
+    message: |
+      检测到无资源限制的 LLM 调用端点。
+      建议添加：输入长度限制、速率限制、超时控制。
+    severity: WARNING
+    languages:
+      - java
+    metadata:
+      category: security
+      subcategory: llm-security
+
+  # 敏感信息在系统提示词中
+  - id: java-llm-sensitive-system-prompt
+    patterns:
+      - pattern: |
+          .defaultSystem("...$SENSITIVE...")
+      - metavariable-regex:
+          metavariable: $SENSITIVE
+          regex: "(password|密码|secret|密钥|token|api.?key)"
+    message: |
+      检测到系统提示词中可能包含敏感信息。
+      不要在系统提示词中存储密码、密钥等敏感数据。
+    severity: WARNING
+    languages:
+      - java
+    metadata:
+      category: security
+      subcategory: llm-security
+
+  # Agent 无迭代限制
+  - id: java-llm-agent-no-iteration-limit
+    patterns:
+      - pattern: |
+          Agent.builder()
+            ...
+            .build();
+      - pattern-not: |
+          Agent.builder()
+            ...
+            .maxIterations(...)
+            .build();
+    message: |
+      检测到 Agent 未设置最大迭代次数限制。
+      这可能导致无限循环或资源耗尽。建议设置 .maxIterations(10)
+    severity: WARNING
+    languages:
+      - java
+    metadata:
+      category: security
+      subcategory: llm-security
+
+  # 加载不可信模型
+  - id: java-llm-untrusted-model-source
+    patterns:
+      - pattern-either:
+          - pattern: |
+              $ENV.loadModel("http://...");
+          - pattern: |
+              $ENV.loadModel($URL);
+      - pattern-not: |
+          $ENV.loadModel("https://huggingface.co/...");
+    message: |
+      检测到从不可信来源加载模型文件。
+      恶意模型可能包含反序列化漏洞，导致 RCE。
+      建议只从可信来源（如官方 Hugging Face）加载模型。
+    severity: WARNING
+    languages:
+      - java
+    metadata:
+      category: security
+      subcategory: llm-security
+
+  # RAG 无数据验证
+  - id: java-llm-rag-no-validation
+    patterns:
+      - pattern: |
+          vectorStore.add($DOCS);
+      - pattern-not: |
+          ...
+          if ($CHECK) { ... }
+          vectorStore.add($DOCS);
+    message: |
+      检测到 RAG 知识库添加数据时未进行验证。
+      未验证的数据可能包含间接注入攻击。
+      建议在添加前进行内容扫描和验证。
+    severity: WARNING
+    languages:
+      - java
+    metadata:
+      category: security
+      subcategory: llm-security

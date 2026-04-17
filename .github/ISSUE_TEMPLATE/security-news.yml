@@ -1,0 +1,42 @@
+name: 安全动态周报
+description: 提交本周 Java & LLM 安全动态
+title: "[NEWS] 2026-WXX Java & LLM 安全周报"
+labels: ["news", "weekly"]
+body:
+  - type: input
+    id: week
+    attributes:
+      label: 周次
+      placeholder: "2026-W17"
+    validations:
+      required: true
+
+  - type: textarea
+    id: vulnerabilities
+    attributes:
+      label: 本周安全漏洞
+      description: 格式：CVE编号 | 组件 | 严重程度 | 简要描述
+      placeholder: |
+        CVE-2026-XXXX | Spring Boot | 高危 | Actuator 未授权访问
+    validations:
+      required: true
+
+  - type: textarea
+    id: updates
+    attributes:
+      label: 框架/组件安全更新
+      placeholder: |
+        Spring Security 6.4.1 发布，修复 XXX 问题
+
+  - type: textarea
+    id: llm-security
+    attributes:
+      label: LLM 安全动态
+      description: AI/LLM 相关安全事件或研究
+
+  - type: textarea
+    id: references
+    attributes:
+      label: 信息来源
+    validations:
+      required: true

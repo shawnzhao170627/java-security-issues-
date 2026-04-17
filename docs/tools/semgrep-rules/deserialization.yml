@@ -1,0 +1,97 @@
+rules:
+  - id: java-deserialization-objectinputstream
+    patterns:
+      - pattern: |
+          new ObjectInputStream(...).readObject()
+    message: |
+      检测到不安全的反序列化：ObjectInputStream.readObject() 反序列化不可信数据可能导致 RCE。
+      请使用白名单过滤或避免反序列化不可信数据。
+      Insecure deserialization detected: ObjectInputStream.readObject() on untrusted data can lead to RCE.
+      Use whitelist filtering or avoid deserializing untrusted data.
+    severity: ERROR
+    languages:
+      - java
+    metadata:
+      category: security
+      cwe:
+        - CWE-502
+      owasp:
+        - A08:2025 - Software or Data Integrity Failures
+      confidence: MEDIUM
+      references:
+        - https://owasp.org/www-community/attacks/Deserialization_of_untrusted_data
+        - https://cwe.mitre.org/data/definitions/502.html
+
+  - id: java-deserialization-fastjson-autotype
+    patterns:
+      - pattern-either:
+          - pattern: |
+              ParserConfig.getGlobalInstance().setAutoTypeSupport(true);
+          - pattern: |
+              $CONFIG.setAutoTypeSupport(true);
+    message: |
+      检测到 Fastjson AutoType 开启：可能导致反序列化 RCE。
+      请关闭 AutoType 或使用 SafeMode。
+      Fastjson AutoType enabled: Can lead to deserialization RCE.
+      Disable AutoType or enable SafeMode.
+    severity: ERROR
+    languages:
+      - java
+    metadata:
+      category: security
+      cwe:
+        - CWE-502
+      owasp:
+        - A08:2025 - Software or Data Integrity Failures
+      confidence: HIGH
+      references:
+        - https://github.com/alibaba/fastjson/wiki/security_update
+        - https://cwe.mitre.org/data/definitions/502.html
+
+  - id: java-deserialization-jackson-defaulttyping
+    patterns:
+      - pattern: |
+          $MAPPER.enableDefaultTyping(...)
+    message: |
+      检测到 Jackson DefaultTyping 开启：可能导致反序列化 RCE。
+      请禁用 DefaultTyping 或使用白名单。
+      Jackson DefaultTyping enabled: Can lead to deserialization RCE.
+      Disable DefaultTyping or use whitelist.
+    severity: ERROR
+    languages:
+      - java
+    metadata:
+      category: security
+      cwe:
+        - CWE-502
+      owasp:
+        - A08:2025 - Software or Data Integrity Failures
+      confidence: HIGH
+      references:
+        - https://github.com/FasterXML/jackson-docs/wiki/JacksonPolymorphicDeserialization
+        - https://cwe.mitre.org/data/definitions/502.html
+
+  - id: java-deserialization-snakeyaml-unsafe
+    patterns:
+      - pattern: |
+          new Yaml(...).load(...)
+    pattern-not: |
+          new Yaml(new SafeConstructor()).load(...)
+    message: |
+      检测到不安全的 SnakeYAML 反序列化：可能导致任意类实例化 RCE。
+      请使用 SafeConstructor：new Yaml(new SafeConstructor())
+      Insecure SnakeYAML deserialization: Can lead to arbitrary class instantiation RCE.
+      Use SafeConstructor: new Yaml(new SafeConstructor())
+    severity: ERROR
+    languages:
+      - java
+    metadata:
+      category: security
+      cwe:
+        - CWE-502
+      owasp:
+        - A08:2025 - Software or Data Integrity Failures
+      confidence: HIGH
+      references:
+        - https://bitbucket.org/asomov/snakeyaml/wiki/Documentation#markdown-header-secure-loading
+        - https://cwe.mitre.org/data/definitions/502.html
