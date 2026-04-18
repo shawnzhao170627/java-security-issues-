@@ -1,3 +1,7 @@
+// [SECURE] 文件说明：演示 SQL 注入漏洞的安全修复方案
+// 修复方式：参数化查询 / 白名单校验
+// 对应文档：docs/vulnerabilities/injection/sql-injection.md
+
 /**
  * 安全代码示例：SQL 注入防护
  * Secure Code Example: SQL Injection Prevention

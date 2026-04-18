@@ -2,11 +2,11 @@
 id: SWAGGER-INFO-DISCLOSURE
 name: Swagger/API 文档信息泄露
 severity: low
-owasp: A05:2025
-cwe: [CWE-200, CWE-16]
+owasp: "A05:2025"
+cwe: ["CWE-200", "CWE-16"]
 category: configuration
 frameworks: [Swagger, SpringDoc, SpringFox, OpenAPI]
-last_updated: 2026-04-17
+last_updated: "2026-04-17"
 doc_version: "1.0"
 ---
 

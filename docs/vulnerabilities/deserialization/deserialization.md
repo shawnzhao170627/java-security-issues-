@@ -26,7 +26,7 @@ doc_version: "1.0"
 | CWE | CWE-502 |
 | 严重程度 | 高危/严重 |
 
-## 影响范围
+## 攻击类型
 
 | 库/组件 | 漏洞入口 | 攻击方式 | 影响 |
 |---------|---------|---------|------|
@@ -39,7 +39,7 @@ doc_version: "1.0"
 | Kryo | Kryo.readClassAndObject | 任意类实例化 | RCE |
 | json-io | JsonReader.jsonToJava | 任意类实例化 | RCE |
 
-## 漏洞详解
+## Java 场景
 
 ### 1. Java 原生反序列化
 

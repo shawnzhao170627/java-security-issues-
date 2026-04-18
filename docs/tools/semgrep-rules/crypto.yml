@@ -1,0 +1,175 @@
+rules:
+  # ============================================
+  # Crypto Failure - 加密机制失效
+  # ============================================
+  - id: java-crypto-weak-algorithm-md5
+    patterns:
+      - pattern-either:
+          - pattern: |
+              MessageDigest.getInstance("MD5");
+          - pattern: |
+              DigestUtils.md5(...);
+          - pattern: |
+              DigestUtils.md5Hex(...);
+    message: |
+      检测到弱哈希算法：MD5 已不安全，存在碰撞攻击。
+      请使用 SHA-256 或更强的算法（如 SHA-3、bcrypt、Argon2）。
+      Weak hash algorithm detected: MD5 is insecure and vulnerable to collision attacks.
+      Use SHA-256 or stronger algorithms (e.g., SHA-3, bcrypt, Argon2).
+    severity: ERROR
+    languages:
+      - java
+    metadata:
+      category: security
+      subcategory: crypto
+      cwe:
+        - CWE-328
+      owasp:
+        - A04:2025 - Insecure Design
+      confidence: HIGH
+      references:
+        - https://cwe.mitre.org/data/definitions/328.html
+        - https://owasp.org/Top10/A02_2021-Cryptographic_Failures/
+
+  - id: java-crypto-weak-algorithm-sha1
+    patterns:
+      - pattern-either:
+          - pattern: |
+              MessageDigest.getInstance("SHA-1");
+          - pattern: |
+              DigestUtils.sha1(...);
+          - pattern: |
+              DigestUtils.sha1Hex(...);
+    message: |
+      检测到弱哈希算法：SHA-1 已不安全，存在碰撞攻击。
+      请使用 SHA-256 或更强的算法。
+      Weak hash algorithm detected: SHA-1 is insecure and vulnerable to collision attacks.
+      Use SHA-256 or stronger algorithms.
+    severity: ERROR
+    languages:
+      - java
+    metadata:
+      category: security
+      subcategory: crypto
+      cwe:
+        - CWE-328
+      owasp:
+        - A04:2025 - Insecure Design
+      confidence: HIGH
+      references:
+        - https://cwe.mitre.org/data/definitions/328.html
+        - https://owasp.org/Top10/A02_2021-Cryptographic_Failures/
+
+  - id: java-crypto-weak-algorithm-des
+    patterns:
+      - pattern-either:
+          - pattern: |
+              Cipher.getInstance("DES");
+          - pattern: |
+              Cipher.getInstance("DES/...");
+          - pattern: |
+              KeyGenerator.getInstance("DES");
+    message: |
+      检测到弱加密算法：DES 密钥长度仅 56 位，可被暴力破解。
+      请使用 AES（至少 128 位密钥）替代。
+      Weak encryption algorithm detected: DES has only 56-bit key, vulnerable to brute force.
+      Use AES (at least 128-bit key) instead.
+    severity: ERROR
+    languages:
+      - java
+    metadata:
+      category: security
+      subcategory: crypto
+      cwe:
+        - CWE-327
+      owasp:
+        - A04:2025 - Insecure Design
+      confidence: HIGH
+      references:
+        - https://cwe.mitre.org/data/definitions/327.html
+        - https://owasp.org/Top10/A02_2021-Cryptographic_Failures/
+
+  - id: java-crypto-weak-algorithm-3des
+    patterns:
+      - pattern-either:
+          - pattern: |
+              Cipher.getInstance("DESede");
+          - pattern: |
+              Cipher.getInstance("TripleDES");
+          - pattern: |
+              KeyGenerator.getInstance("DESede");
+    message: |
+      检测到弱加密算法：3DES (DESede) 已不推荐，存在 SWEET32 攻击风险。
+      请使用 AES 替代。
+      Weak encryption algorithm detected: 3DES (DESede) is deprecated, vulnerable to SWEET32.
+      Use AES instead.
+    severity: WARNING
+    languages:
+      - java
+    metadata:
+      category: security
+      subcategory: crypto
+      cwe:
+        - CWE-327
+      owasp:
+        - A04:2025 - Insecure Design
+      confidence: HIGH
+      references:
+        - https://cwe.mitre.org/data/definitions/327.html
+        - https://owasp.org/Top10/A02_2021-Cryptographic_Failures/
+
+  - id: java-crypto-ecb-mode
+    patterns:
+      - pattern-either:
+          - pattern: |
+              Cipher.getInstance("AES/ECB/...");
+          - pattern: |
+              Cipher.getInstance("DES/ECB/...");
+    message: |
+      检测到不安全的 ECB 加密模式：ECB 模式对相同明文产生相同密文，无法隐藏数据模式。
+      请使用 CBC 或 GCM 模式替代。
+      Insecure ECB cipher mode detected: ECB produces identical ciphertext for identical plaintext.
+      Use CBC or GCM mode instead.
+    severity: ERROR
+    languages:
+      - java
+    metadata:
+      category: security
+      subcategory: crypto
+      cwe:
+        - CWE-327
+      owasp:
+        - A04:2025 - Insecure Design
+      confidence: HIGH
+      references:
+        - https://cwe.mitre.org/data/definitions/327.html
+        - https://owasp.org/Top10/A02_2021-Cryptographic_Failures/
+
+  - id: java-crypto-hardcoded-key
+    patterns:
+      - pattern-either:
+          - pattern: |
+              new SecretKeySpec("...".getBytes(), ...);
+          - pattern: |
+              String $KEY = "...";
+              ...
+              new SecretKeySpec($KEY.getBytes(), ...);
+    message: |
+      检测到硬编码密钥：加密密钥硬编码在源代码中。
+      请使用密钥管理服务（KMS）或安全的密钥存储机制。
+      Hardcoded crypto key detected: Encryption key hardcoded in source code.
+      Use Key Management Service (KMS) or secure key storage mechanism.
+    severity: ERROR
+    languages:
+      - java
+    metadata:
+      category: security
+      subcategory: crypto
+      cwe:
+        - CWE-798
+      owasp:
+        - A07:2025 - Identity and Authentication Failures
+      confidence: HIGH
+      references:
+        - https://cwe.mitre.org/data/definitions/798.html
+        - https://owasp.org/Top10/A02_2021-Cryptographic_Failures/

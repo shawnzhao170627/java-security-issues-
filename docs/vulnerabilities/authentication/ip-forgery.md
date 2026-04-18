@@ -2,11 +2,11 @@
 id: IP-FORGERY
 name: IP 伪造
 severity: medium
-owasp: A01:2025
-cwe: [CWE-290, CWE-346]
+owasp: "A01:2025"
+cwe: ["CWE-290", "CWE-346"]
 category: authentication
 frameworks: [Servlet, Spring MVC, Nginx, Cloudflare]
-last_updated: 2026-04-17
+last_updated: "2026-04-17"
 doc_version: "1.0"
 ---
 

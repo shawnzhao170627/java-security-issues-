@@ -3,7 +3,7 @@ id: SSTI
 name: 服务端模板注入
 severity: critical
 owasp: "A05:2025"
-cwe: ["CWE-94"]
+cwe: ["CWE-1336", "CWE-94"]
 category: injection
 frameworks: [FreeMarker, Velocity, Thymeleaf, Pebble, Groovy Template]
 last_updated: "2026-04-17"
@@ -23,7 +23,7 @@ doc_version: "1.0"
 | 维度 | 评级 |
 |------|------|
 | OWASP Top 10 | A05:2025 - Injection |
-| CWE | CWE-94 |
+| CWE | CWE-1336 / CWE-94 |
 | 严重程度 | 严重 |
 
 ## 攻击类型

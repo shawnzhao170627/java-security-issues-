@@ -1,3 +1,8 @@
+// [VULNERABLE] 文件说明：演示 SQL 注入漏洞，仅用于教学目的
+// 漏洞类型：SQL-INJECTION
+// 风险等级：critical
+// 对应文档：docs/vulnerabilities/injection/sql-injection.md
+
 /**
  * 漏洞代码示例：SQL 注入
  * Vulnerable Code Example: SQL Injection

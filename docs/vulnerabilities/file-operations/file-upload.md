@@ -22,11 +22,11 @@ doc_version: "1.0"
 
 | 维度 | 评级 |
 |------|------|
-| OWASP Top 10 | A04:2021 - Insecure Design |
+| OWASP Top 10 | A04:2025 - Insecure Design |
 | CWE | CWE-434 |
 | 严重程度 | 高危/严重 |
 
-## 漏洞类型
+## 攻击类型
 
 ### 1. 无校验上传
 
@@ -78,7 +78,7 @@ file.transferTo(new File("/uploads/" + filename));
 
 **攻击**：`filename = "../../../webapps/ROOT/shell.jsp"`，文件被保存到 Web 目录。
 
-## 安全代码示例
+## Java 场景
 
 ```java
 @PostMapping("/upload")
@@ -146,7 +146,30 @@ private boolean isValidImageHeader(byte[] header) {
 }
 ```
 
-## 防护措施清单
+## 检测方法
+
+### 静态检测
+
+1. **关键词搜索**：查找文件上传相关代码
+   ```bash
+   grep -rn "MultipartFile" src/
+   grep -rn "FileUpload" src/
+   grep -rn "transferTo" src/
+   grep -rn "getOriginalFilename" src/
+   ```
+
+2. **使用 Semgrep 规则**：
+   ```bash
+   semgrep --config ./semgrep-rules/file-operations.yml src/
+   ```
+
+### 动态检测
+
+1. **Burp Suite**：使用文件上传测试模块
+2. **手动测试**：尝试上传可执行文件（如 .jsp、.jspx）并验证是否被拦截
+3. **MIME 类型绕过测试**：修改 `Content-Type` 头绕过校验
+
+## 防护措施
 
 | 措施 | 说明 |
 |------|------|

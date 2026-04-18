@@ -2,11 +2,11 @@
 id: JAVA-RMI
 name: Java RMI 反序列化攻击
 severity: high
-owasp: A08:2025
-cwe: [CWE-502, CWE-976]
+owasp: "A08:2025"
+cwe: ["CWE-502", "CWE-976"]
 category: deserialization
 frameworks: [Java RMI, JMX, Spring RMI]
-last_updated: 2026-04-17
+last_updated: "2026-04-17"
 doc_version: "1.0"
 ---
 

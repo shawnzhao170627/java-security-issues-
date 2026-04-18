@@ -1,0 +1,72 @@
+rules:
+  # ============================================
+  # Path Traversal - 路径遍历
+  # ============================================
+  - id: java-file-operations-path-traversal
+    patterns:
+      - pattern-either:
+          - pattern: |
+              new FileInputStream($REQ.getParameter(...));
+          - pattern: |
+              new File($REQ.getParameter(...));
+          - pattern: |
+              Paths.get($REQ.getParameter(...));
+          - pattern: |
+              Files.readAllBytes(Paths.get($REQ.getParameter(...)));
+      - pattern-not: |
+          ...
+    message: |
+      检测到路径遍历风险：用户输入直接用于构建文件路径，可能包含 ../ 等遍历字符。
+      请使用路径规范化（Path.normalize()）+ 白名单校验，或使用沙箱隔离文件访问。
+      Path Traversal detected: User input used directly to construct file paths, may contain ../ traversal.
+      Use path normalization (Path.normalize()) + whitelist validation, or sandbox file access.
+    severity: ERROR
+    languages:
+      - java
+    metadata:
+      category: security
+      subcategory: file-operations
+      cwe:
+        - CWE-22
+      owasp:
+        - A01:2025 - Broken Access Control
+      confidence: HIGH
+      references:
+        - https://owasp.org/www-community/attacks/Path_Traversal
+        - https://cwe.mitre.org/data/definitions/22.html
+
+  # ============================================
+  # File Upload - 任意文件上传
+  # ============================================
+  - id: java-file-operations-file-upload
+    patterns:
+      - pattern-either:
+          - pattern: |
+              $FILE.transferTo(new File($FILE.getOriginalFilename()));
+          - pattern: |
+              $FILE.transferTo(new File($DIR + $FILE.getOriginalFilename()));
+          - pattern: |
+              new FileOutputStream($FILE.getOriginalFilename());
+          - pattern: |
+              String $NAME = $FILE.getOriginalFilename();
+              ...
+              $FILE.transferTo(new File("..." + $NAME));
+    message: |
+      检测到任意文件上传风险：使用原始文件名存储上传文件，未校验扩展名和内容。
+      请使用白名单校验扩展名、重命名文件、校验文件内容（Magic Number）、存储到独立目录。
+      Unrestricted File Upload detected: Using original filename for storage without extension or content validation.
+      Use extension whitelist, rename files, validate content (Magic Number), and store in isolated directory.
+    severity: ERROR
+    languages:
+      - java
+    metadata:
+      category: security
+      subcategory: file-operations
+      cwe:
+        - CWE-434
+      owasp:
+        - A04:2025 - Insecure Design
+      confidence: HIGH
+      references:
+        - https://owasp.org/www-community/vulnerabilities/Unrestricted_File_Upload
+        - https://cwe.mitre.org/data/definitions/434.html

@@ -27,6 +27,14 @@ Prompt 注入（Prompt Injection）是大语言模型（LLM）应用中最常见
 
 ---
 
+## 风险等级
+
+| 维度 | 评级 |
+|------|------|
+| OWASP LLM Top 10 | LLM01 - Prompt Injection |
+| CWE | CWE-94 |
+| 严重程度 | 严重 (Critical) |
+
 ## 攻击类型
 
 ### 1. 直接注入（Direct Injection）
@@ -73,7 +81,7 @@ Prompt 注入（Prompt Injection）是大语言模型（LLM）应用中最常见
 
 ---
 
-## Java/LLM 场景示例
+## Java 场景
 
 ### 场景 1：Spring AI Chat 应用
 
@@ -358,6 +366,57 @@ public class DocumentSanitizer {
 
 ---
 
+## 检测方法
+
+### Semgrep 规则
+
+```yaml
+rules:
+  - id: java-llm-prompt-injection-risk
+    patterns:
+      - pattern-either:
+          - pattern: |
+              $MODEL.call($USER_INPUT + ...)
+          - pattern: |
+              $MODEL.call("..." + $USER_INPUT)
+          - pattern: |
+              String $PROMPT = "..." + $USER_INPUT;
+              ...
+              $MODEL.call($PROMPT);
+    message: |
+      检测到可能的 Prompt 注入风险：用户输入直接拼接到 Prompt 中。
+      建议使用 ChatClient 进行指令隔离，并对用户输入进行净化。
+    severity: ERROR
+    languages:
+      - java
+    metadata:
+      category: security
+      subcategory: llm-security
+      references:
+        - https://owasp.org/www-project-top-10-for-large-language-model-applications/
+
+  - id: java-llm-hardcoded-api-key
+    patterns:
+      - pattern-either:
+          - pattern: |
+              .apiKey("sk-...")
+          - pattern: |
+              .apiKey("$KEY")
+      - metavariable-regex:
+          metavariable: $KEY
+          regex: "sk-[a-zA-Z0-9]{20,}"
+    message: |
+      检测到硬编码的 API 密钥。请使用环境变量或密钥管理服务。
+    severity: ERROR
+    languages:
+      - java
+    metadata:
+      category: security
+      subcategory: llm-security
+```
+
+---
+
 ## 防护措施
 
 ### 1. 输入净化（Input Sanitization）
@@ -542,57 +601,6 @@ public class SensitiveDataFilter implements OutputFilter {
         return filtered;
     }
 }
-```
-
----
-
-## 检测规则
-
-### Semgrep 规则
-
-```yaml
-rules:
-  - id: java-llm-prompt-injection-risk
-    patterns:
-      - pattern-either:
-          - pattern: |
-              $MODEL.call($USER_INPUT + ...)
-          - pattern: |
-              $MODEL.call("..." + $USER_INPUT)
-          - pattern: |
-              String $PROMPT = "..." + $USER_INPUT;
-              ...
-              $MODEL.call($PROMPT);
-    message: |
-      检测到可能的 Prompt 注入风险：用户输入直接拼接到 Prompt 中。
-      建议使用 ChatClient 进行指令隔离，并对用户输入进行净化。
-    severity: ERROR
-    languages:
-      - java
-    metadata:
-      category: security
-      subcategory: llm-security
-      references:
-        - https://owasp.org/www-project-top-10-for-large-language-model-applications/
-
-  - id: java-llm-hardcoded-api-key
-    patterns:
-      - pattern-either:
-          - pattern: |
-              .apiKey("sk-...")
-          - pattern: |
-              .apiKey("$KEY")
-      - metavariable-regex:
-          metavariable: $KEY
-          regex: "sk-[a-zA-Z0-9]{20,}"
-    message: |
-      检测到硬编码的 API 密钥。请使用环境变量或密钥管理服务。
-    severity: ERROR
-    languages:
-      - java
-    metadata:
-      category: security
-      subcategory: llm-security
 ```
 
 ---

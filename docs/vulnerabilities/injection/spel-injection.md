@@ -3,7 +3,7 @@ id: SPEL-INJECTION
 name: SpEL 表达式注入
 severity: critical
 owasp: "A05:2025"
-cwe: ["CWE-94"]
+cwe: ["CWE-94", "CWE-917"]
 category: injection
 frameworks: [Spring Framework, Spring Data, Spring Security, Spring Cloud]
 last_updated: "2026-04-17"
@@ -23,7 +23,7 @@ Spring Expression Language（SpEL）注入是指用户可控输入被传入 SpEL
 | 维度 | 评级 |
 |------|------|
 | OWASP Top 10 | A05:2025 - Injection |
-| CWE | CWE-94 |
+| CWE | CWE-94 / CWE-917 |
 | 严重程度 | 严重 |
 
 ## 攻击类型

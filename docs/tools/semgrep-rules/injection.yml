@@ -1,0 +1,345 @@
+rules:
+  # ============================================
+  # XSS - 跨站脚本攻击
+  # ============================================
+  - id: java-injection-xss
+    patterns:
+      - pattern-either:
+          - pattern: |
+              $WRITER.print($REQ.getParameter(...));
+          - pattern: |
+              $WRITER.println($REQ.getParameter(...));
+          - pattern: |
+              $MODEL.addAttribute($KEY, $REQ.getParameter(...));
+      - pattern-not-inside: |
+          $ENCODER.encodeForHTML(...)
+    message: |
+      检测到 XSS 风险：用户输入未经编码直接输出到页面。
+      请使用 HTML 编码（如 OWASP Encoder）或模板引擎自动转义。
+      XSS detected: User input output without encoding.
+      Use HTML encoding (e.g., OWASP Encoder) or template engine auto-escaping.
+    severity: ERROR
+    languages:
+      - java
+    metadata:
+      category: security
+      subcategory: injection
+      cwe:
+        - CWE-79
+      owasp:
+        - A05:2025 - Injection
+      confidence: MEDIUM
+      references:
+        - https://owasp.org/www-community/attacks/xss/
+        - https://cwe.mitre.org/data/definitions/79.html
+
+  # ============================================
+  # Command Injection - 命令注入
+  # ============================================
+  - id: java-injection-command-injection
+    patterns:
+      - pattern-either:
+          - pattern: |
+              Runtime.getRuntime().exec($VAR);
+          - pattern: |
+              new ProcessBuilder($VAR);
+          - pattern: |
+              Runtime.getRuntime().exec("..." + $VAR + "...");
+    message: |
+      检测到命令注入风险：用户输入被传入系统命令执行。
+      请避免调用系统命令，或使用严格的参数化方式（ProcessBuilder 参数列表）。
+      Command Injection detected: User input passed to system command execution.
+      Avoid system commands or use strict parameterization (ProcessBuilder argument list).
+    severity: ERROR
+    languages:
+      - java
+    metadata:
+      category: security
+      subcategory: injection
+      cwe:
+        - CWE-78
+      owasp:
+        - A05:2025 - Injection
+      confidence: HIGH
+      references:
+        - https://owasp.org/www-community/attacks/Command_Injection
+        - https://cwe.mitre.org/data/definitions/78.html
+
+  # ============================================
+  # SSRF - 服务端请求伪造
+  # ============================================
+  - id: java-injection-ssrf
+    patterns:
+      - pattern-either:
+          - pattern: |
+              new URL($REQ.getParameter(...)).openConnection()
+          - pattern: |
+              $CLIENT.execute(new HttpGet($REQ.getParameter(...)));
+          - pattern: |
+              $TEMPLATE.getForObject($REQ.getParameter(...), $CLASS);
+      - pattern-not: |
+          ...
+    message: |
+      检测到 SSRF 风险：用户输入直接用于构建 HTTP 请求 URL。
+      请使用 URL 白名单校验，禁止访问内网地址。
+      SSRF detected: User input used to construct HTTP request URL.
+      Use URL whitelist validation and block internal network addresses.
+    severity: ERROR
+    languages:
+      - java
+    metadata:
+      category: security
+      subcategory: injection
+      cwe:
+        - CWE-918
+      owasp:
+        - A10:2025 - Server-Side Request Forgery
+      confidence: MEDIUM
+      references:
+        - https://owasp.org/www-community/attacks/Server_Side_Request_Forgery
+        - https://cwe.mitre.org/data/definitions/918.html
+
+  # ============================================
+  # XXE - XML 外部实体注入
+  # ============================================
+  - id: java-injection-xxe
+    patterns:
+      - pattern-either:
+          - pattern: |
+              DocumentBuilderFactory $DBF = DocumentBuilderFactory.newInstance();
+              ...
+              $DBF.newDocumentBuilder().parse(...);
+          - pattern: |
+              SAXParserFactory $SPF = SAXParserFactory.newInstance();
+              ...
+              $SPF.newSAXParser().parse(...);
+          - pattern: |
+              XMLReader $READER = ...;
+              ...
+              $READER.parse(...);
+      - pattern-not: |
+          $DBF.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+    message: |
+      检测到 XXE 风险：XML 解析器未禁用外部实体。
+      请设置安全特性：setFeature("http://apache.org/xml/features/disallow-doctype-decl", true)。
+      XXE detected: XML parser without external entity disabling.
+      Set secure feature: setFeature("http://apache.org/xml/features/disallow-doctype-decl", true).
+    severity: ERROR
+    languages:
+      - java
+    metadata:
+      category: security
+      subcategory: injection
+      cwe:
+        - CWE-611
+      owasp:
+        - A05:2025 - Injection
+      confidence: HIGH
+      references:
+        - https://owasp.org/www-community/attacks/XXE
+        - https://cwe.mitre.org/data/definitions/611.html
+
+  # ============================================
+  # SSTI - 服务端模板注入
+  # ============================================
+  - id: java-injection-ssti
+    patterns:
+      - pattern-either:
+          - pattern: |
+              $CFG.getTemplate($REQ.getParameter(...));
+          - pattern: |
+              new Template($NAME, $REQ.getParameter(...), $CFG);
+          - pattern: |
+              $ENGINE.evaluate($CONTEXT, $WRITER, $NAME, $REQ.getParameter(...));
+          - pattern: |
+              $JINJAVA.render($REQ.getParameter(...), $MAP);
+    message: |
+      检测到 SSTI 风险：用户输入直接作为模板内容或模板名称。
+      请避免将用户输入拼接到模板中，使用预定义模板 + 数据模型。
+      SSTI detected: User input used as template content or name.
+      Avoid embedding user input in templates; use predefined templates with data models.
+    severity: ERROR
+    languages:
+      - java
+    metadata:
+      category: security
+      subcategory: injection
+      cwe:
+        - CWE-1336
+      owasp:
+        - A05:2025 - Injection
+      confidence: MEDIUM
+      references:
+        - https://portswigger.net/research/server-side-template-injection
+        - https://cwe.mitre.org/data/definitions/1336.html
+
+  # ============================================
+  # SpEL Injection - SpEL 注入
+  # ============================================
+  - id: java-injection-spel-injection
+    patterns:
+      - pattern-either:
+          - pattern: |
+              SpelExpressionParser $PARSER = ...;
+              ...
+              $PARSER.parseExpression($REQ.getParameter(...));
+          - pattern: |
+              $PARSER.parseRaw($USER_INPUT);
+          - pattern: |
+              ExpressionParser $PARSER = ...;
+              ...
+              $PARSER.parseExpression($VAR);
+      - pattern-not-inside: |
+          ...
+          $PARSER.parseExpression("...");
+    message: |
+      检测到 SpEL 注入风险：用户输入被作为 SpEL 表达式解析。
+      请使用 SimpleEvaluationContext 替代 StandardEvaluationContext，或避免解析用户输入。
+      SpEL Injection detected: User input parsed as SpEL expression.
+      Use SimpleEvaluationContext instead of StandardEvaluationContext, or avoid parsing user input.
+    severity: ERROR
+    languages:
+      - java
+    metadata:
+      category: security
+      subcategory: injection
+      cwe:
+        - CWE-94
+      owasp:
+        - A05:2025 - Injection
+      confidence: HIGH
+      references:
+        - https://docs.spring.io/spring-framework/reference/core/expressions.html
+        - https://nvd.nist.gov/vuln/detail/CVE-2022-22947
+
+  # ============================================
+  # Open Redirect - 开放重定向
+  # ============================================
+  - id: java-injection-open-redirect
+    patterns:
+      - pattern-either:
+          - pattern: |
+              $RESP.sendRedirect($REQ.getParameter(...));
+          - pattern: |
+              return "redirect:" + $REQ.getParameter(...);
+          - pattern: |
+              $RESP.setHeader("Location", $REQ.getParameter(...));
+    message: |
+      检测到开放重定向风险：用户输入直接用于重定向目标 URL。
+      请使用 URL 白名单校验，禁止重定向到外部域名。
+      Open Redirect detected: User input used as redirect target URL.
+      Use URL whitelist validation and block external domain redirects.
+    severity: WARNING
+    languages:
+      - java
+    metadata:
+      category: security
+      subcategory: injection
+      cwe:
+        - CWE-601
+      owasp:
+        - A01:2025 - Broken Access Control
+      confidence: MEDIUM
+      references:
+        - https://owasp.org/www-community/attacks/Open_Redirect
+        - https://cwe.mitre.org/data/definitions/601.html
+
+  # ============================================
+  # ScriptEngine RCE - 脚本引擎远程代码执行
+  # ============================================
+  - id: java-injection-script-engine-rce
+    patterns:
+      - pattern-either:
+          - pattern: |
+              $ENGINE.eval($REQ.getParameter(...));
+          - pattern: |
+              new GroovyShell().evaluate($USER_INPUT);
+          - pattern: |
+              $SHELL.parse($USER_INPUT);
+          - pattern: |
+              $ENGINE.eval("..." + $USER_INPUT + "...");
+    message: |
+      检测到脚本引擎 RCE 风险：用户输入被传入脚本引擎执行。
+      请禁止动态脚本执行，或使用预定义模板和沙箱隔离。
+      ScriptEngine RCE detected: User input passed to script engine for execution.
+      Avoid dynamic script execution or use predefined templates with sandboxing.
+    severity: ERROR
+    languages:
+      - java
+    metadata:
+      category: security
+      subcategory: injection
+      cwe:
+        - CWE-94
+      owasp:
+        - A05:2025 - Injection
+      confidence: HIGH
+      references:
+        - https://cwe.mitre.org/data/definitions/94.html
+        - https://groovy-lang.org/security.html
+
+  # ============================================
+  # CRLF Injection - CRLF 注入
+  # ============================================
+  - id: java-injection-crlf-injection
+    patterns:
+      - pattern-either:
+          - pattern: |
+              $RESP.setHeader($NAME, $REQ.getParameter(...));
+          - pattern: |
+              $RESP.addHeader($NAME, $REQ.getParameter(...));
+          - pattern: |
+              $LOGGER.info($REQ.getParameter(...));
+    message: |
+      检测到 CRLF 注入风险：用户输入被传入 HTTP 头或日志，可能包含 CRLF 字符。
+      请过滤 \\r\\n 字符，或使用安全的 API 设置 HTTP 头。
+      CRLF Injection detected: User input passed to HTTP header or log, may contain CRLF characters.
+      Filter \\r\\n characters or use safe API for HTTP headers.
+    severity: WARNING
+    languages:
+      - java
+    metadata:
+      category: security
+      subcategory: injection
+      cwe:
+        - CWE-113
+      owasp:
+        - A05:2025 - Injection
+      confidence: MEDIUM
+      references:
+        - https://cwe.mitre.org/data/definitions/113.html
+        - https://owasp.org/www-community/attacks/HTTP_Response_Splitting
+
+  # ============================================
+  # QLExpress RCE - QLExpress 远程代码执行
+  # ============================================
+  - id: java-injection-qlexpress-rce
+    patterns:
+      - pattern-either:
+          - pattern: |
+              $EXPRESS.execute($REQ.getParameter(...), $CONTEXT, ...);
+          - pattern: |
+              $EXPRESS.execute($USER_INPUT, $CONTEXT, ...);
+          - pattern: |
+              AviatorEvaluator.execute($USER_INPUT);
+          - pattern: |
+              $RUNTIME.evaluate($USER_INPUT, ...);
+    message: |
+      检测到规则引擎 RCE 风险：用户输入被传入 QLExpress/Aviator 等规则引擎执行。
+      请使用预定义模板，禁止 import 和 Java 类访问，注册安全自定义函数。
+      Rule Engine RCE detected: User input passed to QLExpress/Aviator for execution.
+      Use predefined templates, block import and Java class access, register safe custom functions.
+    severity: ERROR
+    languages:
+      - java
+    metadata:
+      category: security
+      subcategory: injection
+      cwe:
+        - CWE-94
+      owasp:
+        - A05:2025 - Injection
+      confidence: HIGH
+      references:
+        - https://cwe.mitre.org/data/definitions/94.html
+        - https://github.com/alibaba/QLExpress

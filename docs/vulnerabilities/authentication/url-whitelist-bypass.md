@@ -2,11 +2,11 @@
 id: URL-WHITELIST-BYPASS
 name: URL 白名单绕过
 severity: medium
-owasp: A01:2025
-cwe: [CWE-20, CWE-601]
+owasp: "A01:2025"
+cwe: ["CWE-20", "CWE-601"]
 category: authentication
 frameworks: [Spring Security, Servlet Filter, Nginx]
-last_updated: 2026-04-17
+last_updated: "2026-04-17"
 doc_version: "1.0"
 ---
 

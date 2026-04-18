@@ -2,11 +2,11 @@
 id: ACTUATOR
 name: Actuator 未授权访问
 severity: high
-owasp: A05:2025
-cwe: [CWE-16, CWE-200]
+owasp: "A05:2025"
+cwe: ["CWE-16", "CWE-200"]
 category: configuration
 frameworks: [Spring Boot Actuator]
-last_updated: 2026-04-17
+last_updated: "2026-04-17"
 doc_version: "1.0"
 ---
 

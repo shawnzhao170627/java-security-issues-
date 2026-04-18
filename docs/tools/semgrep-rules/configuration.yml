@@ -1,0 +1,140 @@
+rules:
+  # ============================================
+  # Security Misconfiguration - 安全配置错误
+  # ============================================
+  - id: java-configuration-security-misconfiguration
+    patterns:
+      - pattern-either:
+          - pattern: |
+              $PROP.put("debug", "true");
+          - pattern: |
+              @Profile("default")
+              public class $CLASS { ... }
+          - pattern: |
+              server.ssl.enabled=false
+    message: |
+      检测到安全配置错误风险：可能存在调试模式开启、默认 Profile 使用或 SSL 禁用。
+      请关闭调试模式、使用生产 Profile 配置、启用 SSL。
+      Security Misconfiguration detected: Debug mode, default profile, or SSL disabled.
+      Disable debug mode, use production profiles, and enable SSL.
+    severity: WARNING
+    languages:
+      - java
+    metadata:
+      category: security
+      subcategory: configuration
+      cwe:
+        - CWE-16
+      owasp:
+        - A02:2025 - Cryptographic Failures
+      confidence: LOW
+      references:
+        - https://owasp.org/Top10/A05_2017-Security_Misconfiguration/
+        - https://cwe.mitre.org/data/definitions/16.html
+
+  # ============================================
+  # CORS Misconfiguration - CORS 配置错误
+  # ============================================
+  - id: java-configuration-cors-misconfiguration
+    patterns:
+      - pattern-either:
+          - pattern: |
+              $CONFIG.setAllowCredentials(true);
+              ...
+              $CONFIG.addAllowedOrigin("*");
+          - pattern: |
+              .allowedOrigins("*")
+              .allowCredentials(true);
+          - pattern: |
+              $CONFIG.addAllowedHeader("*");
+              ...
+              $CONFIG.addAllowedMethod("*");
+          - pattern: |
+              $RESP.setHeader("Access-Control-Allow-Origin", $REQ.getHeader("Origin"));
+    message: |
+      检测到 CORS 配置错误：允许凭证 + 通配符 Origin 组合，或动态反射 Origin 头。
+      请使用严格的 Origin 白名单，禁止通配符与凭证同时使用。
+      CORS Misconfiguration detected: Credentials + wildcard origin, or dynamic origin reflection.
+      Use strict origin whitelist and never combine wildcard with credentials.
+    severity: ERROR
+    languages:
+      - java
+    metadata:
+      category: security
+      subcategory: configuration
+      cwe:
+        - CWE-942
+      owasp:
+        - A05:2025 - Security Misconfiguration
+      confidence: HIGH
+      references:
+        - https://owasp.org/www-community/attacks/CORS_OriginScrutiny
+        - https://cwe.mitre.org/data/definitions/942.html
+
+  # ============================================
+  # Actuator Unauthorized Access - Actuator 未授权访问
+  # ============================================
+  - id: java-configuration-actuator
+    patterns:
+      - pattern-either:
+          - pattern: |
+              management.endpoints.web.exposure.include=*
+          - pattern: |
+              @Endpoint(id = "...")
+              @Component
+              public class $CLASS { ... }
+          - pattern: |
+              EndpointsSupplier $SUPPLIER = ...;
+    message: |
+      检测到 Actuator 端点暴露风险：可能暴露了所有管理端点或自定义端点未做访问控制。
+      请最小化暴露端点、禁用高危端点（heapdump、env）、配置访问控制。
+      Actuator exposure detected: All management endpoints may be exposed or custom endpoint lacks access control.
+      Minimize exposed endpoints, disable high-risk ones (heapdump, env), configure access control.
+    severity: ERROR
+    languages:
+      - java
+    metadata:
+      category: security
+      subcategory: configuration
+      cwe:
+        - CWE-200
+      owasp:
+        - A05:2025 - Security Misconfiguration
+      confidence: MEDIUM
+      references:
+        - https://docs.spring.io/spring-boot/reference/actuator/security.html
+        - https://cwe.mitre.org/data/definitions/16.html
+
+  # ============================================
+  # Swagger Info Disclosure - Swagger 信息泄露
+  # ============================================
+  - id: java-configuration-swagger-info-disclosure
+    patterns:
+      - pattern-either:
+          - pattern: |
+              @EnableSwagger2
+              public class $CLASS { ... }
+          - pattern: |
+              @EnableOpenApi
+              public class $CLASS { ... }
+          - pattern: |
+              springdoc.swagger-ui.enabled=true
+    message: |
+      检测到 Swagger/API 文档暴露风险：Swagger/OpenAPI 文档端点可能在生产环境启用。
+      请在生产环境禁用 Swagger UI 和 API 文档端点。
+      Swagger info disclosure detected: Swagger/OpenAPI doc endpoints may be enabled in production.
+      Disable Swagger UI and API doc endpoints in production environments.
+    severity: WARNING
+    languages:
+      - java
+    metadata:
+      category: security
+      subcategory: configuration
+      cwe:
+        - CWE-200
+      owasp:
+        - A05:2025 - Security Misconfiguration
+      confidence: MEDIUM
+      references:
+        - https://cwe.mitre.org/data/definitions/200.html
+        - https://springdoc.org/

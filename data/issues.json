@@ -5,20 +5,41 @@
     "name_en": "SQL Injection",
     "category": "injection",
     "owasp": "A05:2025",
-    "cwe": ["CWE-89"],
+    "cwe": [
+      "CWE-89"
+    ],
     "severity": "critical",
     "description": "用户输入被拼接到 SQL 语句中执行",
     "description_en": "User input is concatenated into SQL statements",
-    "java_affected": ["JDBC", "MyBatis", "JPA", "Hibernate"],
+    "java_affected": [
+      "JDBC",
+      "MyBatis",
+      "JPA",
+      "Hibernate"
+    ],
     "doc_path": "docs/vulnerabilities/injection/sql-injection.md",
     "examples": {
       "vulnerable": "examples/vulnerable/SqlInjectionVulnerable.java",
       "secure": "examples/secure/SqlInjectionSecure.java"
     },
     "semgrep_rule": "docs/tools/semgrep-rules/sql-injection.yml",
-    "detection_methods": ["静态分析", "动态测试", "SQLMap"],
-    "mitigation": ["参数化查询", "输入校验", "最小权限"],
-    "tags": ["injection", "jdbc", "mybatis", "jpa", "database"],
+    "detection_methods": [
+      "静态分析",
+      "动态测试",
+      "SQLMap"
+    ],
+    "mitigation": [
+      "参数化查询",
+      "输入校验",
+      "最小权限"
+    ],
+    "tags": [
+      "injection",
+      "jdbc",
+      "mybatis",
+      "jpa",
+      "database"
+    ],
     "last_updated": "2026-04-17",
     "references": [
       "https://owasp.org/www-community/attacks/SQL_Injection",
@@ -31,15 +52,37 @@
     "name_en": "Cross-Site Scripting",
     "category": "injection",
     "owasp": "A05:2025",
-    "cwe": ["CWE-79"],
+    "cwe": [
+      "CWE-79"
+    ],
     "severity": "high",
     "description": "恶意脚本被注入到网页中执行",
     "description_en": "Malicious scripts are injected into web pages",
-    "java_affected": ["JSP", "Thymeleaf", "FreeMarker", "Velocity"],
+    "java_affected": [
+      "JSP",
+      "Thymeleaf",
+      "FreeMarker",
+      "Velocity"
+    ],
     "doc_path": "docs/vulnerabilities/injection/xss.md",
-    "detection_methods": ["静态分析", "动态测试", "手动审计"],
-    "mitigation": ["输出编码", "Content-Security-Policy", "输入校验"],
-    "tags": ["injection", "xss", "jsp", "thymeleaf", "frontend"],
+    "semgrep_rule": "docs/tools/semgrep-rules/injection.yml",
+    "detection_methods": [
+      "静态分析",
+      "动态测试",
+      "手动审计"
+    ],
+    "mitigation": [
+      "输出编码",
+      "Content-Security-Policy",
+      "输入校验"
+    ],
+    "tags": [
+      "injection",
+      "xss",
+      "jsp",
+      "thymeleaf",
+      "frontend"
+    ],
     "last_updated": "2026-04-17",
     "references": [
       "https://owasp.org/www-community/attacks/xss/",
@@ -52,15 +95,34 @@
     "name_en": "Command Injection",
     "category": "injection",
     "owasp": "A05:2025",
-    "cwe": ["CWE-78", "CWE-77"],
+    "cwe": [
+      "CWE-78",
+      "CWE-77"
+    ],
     "severity": "critical",
     "description": "用户输入被拼接到系统命令中执行",
     "description_en": "User input is concatenated into system commands",
-    "java_affected": ["Runtime.exec()", "ProcessBuilder"],
+    "java_affected": [
+      "Runtime.exec()",
+      "ProcessBuilder"
+    ],
     "doc_path": "docs/vulnerabilities/injection/command-injection.md",
-    "detection_methods": ["静态分析", "动态测试"],
-    "mitigation": ["避免系统命令调用", "参数化", "输入校验"],
-    "tags": ["injection", "rce", "runtime", "processbuilder"],
+    "semgrep_rule": "docs/tools/semgrep-rules/injection.yml",
+    "detection_methods": [
+      "静态分析",
+      "动态测试"
+    ],
+    "mitigation": [
+      "避免系统命令调用",
+      "参数化",
+      "输入校验"
+    ],
+    "tags": [
+      "injection",
+      "rce",
+      "runtime",
+      "processbuilder"
+    ],
     "last_updated": "2026-04-17",
     "references": [
       "https://owasp.org/www-community/attacks/Command_Injection",
@@ -73,15 +135,33 @@
     "name_en": "Path Traversal",
     "category": "file-operations",
     "owasp": "A01:2025",
-    "cwe": ["CWE-22"],
+    "cwe": [
+      "CWE-22"
+    ],
     "severity": "high",
     "description": "通过 ../ 等字符访问受限目录",
     "description_en": "Access restricted directories using ../ etc.",
-    "java_affected": ["FileInputStream", "Files.readAllBytes", "File API"],
+    "java_affected": [
+      "FileInputStream",
+      "Files.readAllBytes",
+      "File API"
+    ],
     "doc_path": "docs/vulnerabilities/file-operations/path-traversal.md",
-    "detection_methods": ["静态分析", "动态测试"],
-    "mitigation": ["路径规范化", "白名单校验", "沙箱隔离"],
-    "tags": ["file-operations", "path-traversal", "directory-traversal"],
+    "semgrep_rule": "docs/tools/semgrep-rules/file-operations.yml",
+    "detection_methods": [
+      "静态分析",
+      "动态测试"
+    ],
+    "mitigation": [
+      "路径规范化",
+      "白名单校验",
+      "沙箱隔离"
+    ],
+    "tags": [
+      "file-operations",
+      "path-traversal",
+      "directory-traversal"
+    ],
     "last_updated": "2026-04-17",
     "references": [
       "https://owasp.org/www-community/attacks/Path_Traversal",
@@ -94,15 +174,35 @@
     "name_en": "Unrestricted File Upload",
     "category": "file-operations",
     "owasp": "A04:2025",
-    "cwe": ["CWE-434"],
+    "cwe": [
+      "CWE-434"
+    ],
     "severity": "critical",
     "description": "上传恶意文件导致远程代码执行",
     "description_en": "Upload malicious files leading to RCE",
-    "java_affected": ["MultipartFile", "Servlet FileUpload", "Commons IO"],
+    "java_affected": [
+      "MultipartFile",
+      "Servlet FileUpload",
+      "Commons IO"
+    ],
     "doc_path": "docs/vulnerabilities/file-operations/file-upload.md",
-    "detection_methods": ["静态分析", "动态测试"],
-    "mitigation": ["白名单扩展名", "文件内容校验", "重命名", "独立存储"],
-    "tags": ["file-operations", "file-upload", "rce", "multipart"],
+    "semgrep_rule": "docs/tools/semgrep-rules/file-operations.yml",
+    "detection_methods": [
+      "静态分析",
+      "动态测试"
+    ],
+    "mitigation": [
+      "白名单扩展名",
+      "文件内容校验",
+      "重命名",
+      "独立存储"
+    ],
+    "tags": [
+      "file-operations",
+      "file-upload",
+      "rce",
+      "multipart"
+    ],
     "last_updated": "2026-04-17",
     "references": [
       "https://owasp.org/www-community/vulnerabilities/Unrestricted_File_Upload",
@@ -115,16 +215,39 @@
     "name_en": "Insecure Deserialization",
     "category": "deserialization",
     "owasp": "A08:2025",
-    "cwe": ["CWE-502"],
+    "cwe": [
+      "CWE-502"
+    ],
     "severity": "critical",
     "description": "反序列化不可信数据导致 RCE",
     "description_en": "Deserializing untrusted data leads to RCE",
-    "java_affected": ["ObjectInputStream", "Fastjson", "Jackson", "Hessian", "XStream", "SnakeYAML"],
+    "java_affected": [
+      "ObjectInputStream",
+      "Fastjson",
+      "Jackson",
+      "Hessian",
+      "XStream",
+      "SnakeYAML"
+    ],
     "doc_path": "docs/vulnerabilities/deserialization/deserialization.md",
     "semgrep_rule": "docs/tools/semgrep-rules/deserialization.yml",
-    "detection_methods": ["静态分析", "ysoserial", "marshalsec"],
-    "mitigation": ["白名单过滤", "禁用 AutoType", "使用安全格式"],
-    "tags": ["deserialization", "rce", "objectinputstream", "fastjson", "jackson"],
+    "detection_methods": [
+      "静态分析",
+      "ysoserial",
+      "marshalsec"
+    ],
+    "mitigation": [
+      "白名单过滤",
+      "禁用 AutoType",
+      "使用安全格式"
+    ],
+    "tags": [
+      "deserialization",
+      "rce",
+      "objectinputstream",
+      "fastjson",
+      "jackson"
+    ],
     "last_updated": "2026-04-17",
     "references": [
       "https://owasp.org/www-community/attacks/Deserialization_of_untrusted_data",
@@ -137,16 +260,37 @@
     "name_en": "Broken Access Control",
     "category": "authentication",
     "owasp": "A01:2025",
-    "cwe": ["CWE-862", "CWE-863", "CWE-284"],
+    "cwe": [
+      "CWE-862",
+      "CWE-863",
+      "CWE-284"
+    ],
     "severity": "high",
     "description": "未能正确实施权限限制",
     "description_en": "Failure to properly enforce permission restrictions",
-    "java_affected": ["Spring Security", "Shiro", "自定义权限控制"],
-    "doc_path": "docs/vulnerabilities/authentication/README.md",
-    "detection_methods": ["静态分析", "权限测试"],
-    "mitigation": ["RBAC", "服务端权限校验", "最小权限原则"],
-    "tags": ["authentication", "authorization", "access-control", "spring-security"],
-    "last_updated": "2026-04-17",
+    "java_affected": [
+      "Spring Security",
+      "Shiro",
+      "自定义权限控制"
+    ],
+    "doc_path": "docs/vulnerabilities/authentication/broken-access-control.md",
+    "semgrep_rule": "docs/tools/semgrep-rules/authentication.yml",
+    "detection_methods": [
+      "静态分析",
+      "权限测试"
+    ],
+    "mitigation": [
+      "RBAC",
+      "服务端权限校验",
+      "最小权限原则"
+    ],
+    "tags": [
+      "authentication",
+      "authorization",
+      "access-control",
+      "spring-security"
+    ],
+    "last_updated": "2026-04-18",
     "references": [
       "https://owasp.org/Top10/A01_2021-Broken_Access_Control/",
       "https://cwe.mitre.org/data/definitions/862.html"
@@ -158,16 +302,38 @@
     "name_en": "Authentication Bypass",
     "category": "authentication",
     "owasp": "A07:2025",
-    "cwe": ["CWE-287", "CWE-306"],
+    "cwe": [
+      "CWE-287",
+      "CWE-306"
+    ],
     "severity": "critical",
     "description": "绕过身份认证机制",
     "description_en": "Bypass authentication mechanism",
-    "java_affected": ["Session", "JWT", "OAuth", "自定义认证"],
-    "doc_path": "docs/vulnerabilities/authentication/README.md",
-    "detection_methods": ["静态分析", "渗透测试"],
-    "mitigation": ["强认证机制", "MFA", "Session安全管理"],
-    "tags": ["authentication", "bypass", "jwt", "session", "oauth"],
-    "last_updated": "2026-04-17",
+    "java_affected": [
+      "Session",
+      "JWT",
+      "OAuth",
+      "自定义认证"
+    ],
+    "doc_path": "docs/vulnerabilities/authentication/authentication-bypass.md",
+    "semgrep_rule": "docs/tools/semgrep-rules/authentication.yml",
+    "detection_methods": [
+      "静态分析",
+      "渗透测试"
+    ],
+    "mitigation": [
+      "强认证机制",
+      "MFA",
+      "Session安全管理"
+    ],
+    "tags": [
+      "authentication",
+      "bypass",
+      "jwt",
+      "session",
+      "oauth"
+    ],
+    "last_updated": "2026-04-18",
     "references": [
       "https://owasp.org/www-community/attacks/Authentication_Bypass",
       "https://cwe.mitre.org/data/definitions/287.html"
@@ -179,15 +345,35 @@
     "name_en": "Server-Side Request Forgery",
     "category": "injection",
     "owasp": "A10:2025",
-    "cwe": ["CWE-918"],
+    "cwe": [
+      "CWE-918"
+    ],
     "severity": "high",
     "description": "服务端发起伪造请求访问内部资源",
     "description_en": "Server makes forged requests to internal resources",
-    "java_affected": ["HttpClient", "HttpURLConnection", "OkHttp", "RestTemplate"],
+    "java_affected": [
+      "HttpClient",
+      "HttpURLConnection",
+      "OkHttp",
+      "RestTemplate"
+    ],
     "doc_path": "docs/vulnerabilities/injection/ssrf.md",
-    "detection_methods": ["静态分析", "动态测试"],
-    "mitigation": ["URL白名单", "禁止内网访问", "输入校验"],
-    "tags": ["injection", "ssrf", "httpclient", "resttemplate"],
+    "semgrep_rule": "docs/tools/semgrep-rules/injection.yml",
+    "detection_methods": [
+      "静态分析",
+      "动态测试"
+    ],
+    "mitigation": [
+      "URL白名单",
+      "禁止内网访问",
+      "输入校验"
+    ],
+    "tags": [
+      "injection",
+      "ssrf",
+      "httpclient",
+      "resttemplate"
+    ],
     "last_updated": "2026-04-17",
     "references": [
       "https://owasp.org/www-community/attacks/Server_Side_Request_Forgery",
@@ -200,15 +386,36 @@
     "name_en": "XML External Entity Injection",
     "category": "injection",
     "owasp": "A05:2025",
-    "cwe": ["CWE-611"],
+    "cwe": [
+      "CWE-611"
+    ],
     "severity": "high",
     "description": "XML解析器处理外部实体导致信息泄露或RCE",
     "description_en": "XML parser processes external entities leading to data disclosure or RCE",
-    "java_affected": ["SAXParser", "DocumentBuilder", "XMLReader", "JAXB"],
+    "java_affected": [
+      "SAXParser",
+      "DocumentBuilder",
+      "XMLReader",
+      "JAXB"
+    ],
     "doc_path": "docs/vulnerabilities/injection/xxe.md",
-    "detection_methods": ["静态分析", "动态测试"],
-    "mitigation": ["禁用外部实体", "禁用DTD", "使用安全的解析器配置"],
-    "tags": ["injection", "xxe", "xml", "sax", "documentbuilder"],
+    "semgrep_rule": "docs/tools/semgrep-rules/injection.yml",
+    "detection_methods": [
+      "静态分析",
+      "动态测试"
+    ],
+    "mitigation": [
+      "禁用外部实体",
+      "禁用DTD",
+      "使用安全的解析器配置"
+    ],
+    "tags": [
+      "injection",
+      "xxe",
+      "xml",
+      "sax",
+      "documentbuilder"
+    ],
     "last_updated": "2026-04-17",
     "references": [
       "https://owasp.org/www-community/attacks/XXE",
@@ -221,15 +428,38 @@
     "name_en": "Cryptographic Failures",
     "category": "crypto",
     "owasp": "A04:2025",
-    "cwe": ["CWE-327", "CWE-798", "CWE-311"],
+    "cwe": [
+      "CWE-327",
+      "CWE-798",
+      "CWE-311"
+    ],
     "severity": "high",
     "description": "使用弱加密算法或密钥管理不当",
     "description_en": "Use of weak cryptographic algorithms or improper key management",
-    "java_affected": ["MessageDigest", "Cipher", "KeyStore", "SecretKey"],
+    "java_affected": [
+      "MessageDigest",
+      "Cipher",
+      "KeyStore",
+      "SecretKey"
+    ],
     "doc_path": "docs/vulnerabilities/crypto/crypto-failure.md",
-    "detection_methods": ["静态分析", "配置审计"],
-    "mitigation": ["使用强加密算法", "密钥管理服务", "密码安全存储"],
-    "tags": ["crypto", "weak-algorithm", "md5", "des", "key-management"],
+    "semgrep_rule": "docs/tools/semgrep-rules/crypto.yml",
+    "detection_methods": [
+      "静态分析",
+      "配置审计"
+    ],
+    "mitigation": [
+      "使用强加密算法",
+      "密钥管理服务",
+      "密码安全存储"
+    ],
+    "tags": [
+      "crypto",
+      "weak-algorithm",
+      "md5",
+      "des",
+      "key-management"
+    ],
     "last_updated": "2026-04-17",
     "references": [
       "https://owasp.org/Top10/A02_2021-Cryptographic_Failures/",
@@ -242,15 +472,35 @@
     "name_en": "Security Misconfiguration",
     "category": "configuration",
     "owasp": "A02:2025",
-    "cwe": ["CWE-16", "CWE-260"],
+    "cwe": [
+      "CWE-16",
+      "CWE-260"
+    ],
     "severity": "medium",
     "description": "不安全的默认配置或配置错误",
     "description_en": "Insecure default configurations or misconfigurations",
-    "java_affected": ["Spring Boot", "Tomcat", "application.properties/yml"],
+    "java_affected": [
+      "Spring Boot",
+      "Tomcat",
+      "application.properties/yml"
+    ],
     "doc_path": "docs/vulnerabilities/configuration/security-misconfiguration.md",
-    "detection_methods": ["配置审计", "漏洞扫描"],
-    "mitigation": ["安全基线配置", "删除默认账户", "关闭调试模式"],
-    "tags": ["configuration", "spring-boot", "tomcat", "default-credentials"],
+    "semgrep_rule": "docs/tools/semgrep-rules/configuration.yml",
+    "detection_methods": [
+      "配置审计",
+      "漏洞扫描"
+    ],
+    "mitigation": [
+      "安全基线配置",
+      "删除默认账户",
+      "关闭调试模式"
+    ],
+    "tags": [
+      "configuration",
+      "spring-boot",
+      "tomcat",
+      "default-credentials"
+    ],
     "last_updated": "2026-04-17",
     "references": [
       "https://owasp.org/Top10/A05_2017-Security_Misconfiguration/",
@@ -263,16 +513,35 @@
     "name_en": "Log4j Remote Code Execution",
     "category": "frameworks",
     "owasp": "A08:2025",
-    "cwe": ["CWE-502", "CWE-917"],
+    "cwe": [
+      "CWE-502",
+      "CWE-917"
+    ],
     "severity": "critical",
     "description": "Log4j2 JNDI 注入导致远程代码执行",
     "description_en": "Log4j2 JNDI injection leading to RCE",
-    "java_affected": ["Log4j2 < 2.17.1"],
+    "java_affected": [
+      "Log4j2 < 2.17.1"
+    ],
     "doc_path": "docs/frameworks/log4j2.md",
-    "detection_methods": ["依赖扫描", "动态测试"],
-    "mitigation": ["升级到 2.17.1+", "禁用 JNDI Lookup", "WAF规则"],
-    "tags": ["frameworks", "log4j2", "jndi", "rce", "cve-2021-44228"],
-    "last_updated": "2026-04-17",
+    "semgrep_rule": "docs/tools/semgrep-rules/frameworks.yml",
+    "detection_methods": [
+      "依赖扫描",
+      "动态测试"
+    ],
+    "mitigation": [
+      "升级到 2.17.1+",
+      "禁用 JNDI Lookup",
+      "WAF规则"
+    ],
+    "tags": [
+      "frameworks",
+      "log4j2",
+      "jndi",
+      "rce",
+      "cve-2021-44228"
+    ],
+    "last_updated": "2026-04-18",
     "references": [
       "https://logging.apache.org/log4j/2.x/security.html",
       "https://nvd.nist.gov/vuln/detail/CVE-2021-44228"
@@ -284,16 +553,34 @@
     "name_en": "Fastjson Deserialization RCE",
     "category": "frameworks",
     "owasp": "A08:2025",
-    "cwe": ["CWE-502"],
+    "cwe": [
+      "CWE-502"
+    ],
     "severity": "critical",
     "description": "Fastjson AutoType 反序列化导致远程代码执行",
     "description_en": "Fastjson AutoType deserialization leading to RCE",
-    "java_affected": ["Fastjson < 1.2.83"],
+    "java_affected": [
+      "Fastjson < 1.2.83"
+    ],
     "doc_path": "docs/frameworks/fastjson.md",
-    "detection_methods": ["依赖扫描", "静态分析"],
-    "mitigation": ["升级到 1.2.83+", "禁用 AutoType", "开启 SafeMode"],
-    "tags": ["frameworks", "fastjson", "deserialization", "autotype", "rce"],
-    "last_updated": "2026-04-17",
+    "semgrep_rule": "docs/tools/semgrep-rules/frameworks.yml",
+    "detection_methods": [
+      "依赖扫描",
+      "静态分析"
+    ],
+    "mitigation": [
+      "升级到 1.2.83+",
+      "禁用 AutoType",
+      "开启 SafeMode"
+    ],
+    "tags": [
+      "frameworks",
+      "fastjson",
+      "deserialization",
+      "autotype",
+      "rce"
+    ],
+    "last_updated": "2026-04-18",
     "references": [
       "https://github.com/alibaba/fastjson/wiki/security_update",
       "https://nvd.nist.gov/vuln/detail/CVE-2022-25845"
@@ -305,16 +592,35 @@
     "name_en": "Shiro Deserialization RCE",
     "category": "frameworks",
     "owasp": "A08:2025",
-    "cwe": ["CWE-502"],
+    "cwe": [
+      "CWE-502"
+    ],
     "severity": "critical",
     "description": "Shiro RememberMe 反序列化导致远程代码执行",
     "description_en": "Shiro RememberMe deserialization leading to RCE",
-    "java_affected": ["Shiro < 1.2.5", "Shiro < 1.4.2"],
+    "java_affected": [
+      "Shiro < 1.2.5",
+      "Shiro < 1.4.2"
+    ],
     "doc_path": "docs/frameworks/shiro.md",
-    "detection_methods": ["依赖扫描", "动态测试"],
-    "mitigation": ["升级到最新版本", "更换加密密钥", "禁用 RememberMe"],
-    "tags": ["frameworks", "shiro", "deserialization", "rememberme", "rce"],
-    "last_updated": "2026-04-17",
+    "semgrep_rule": "docs/tools/semgrep-rules/frameworks.yml",
+    "detection_methods": [
+      "依赖扫描",
+      "动态测试"
+    ],
+    "mitigation": [
+      "升级到最新版本",
+      "更换加密密钥",
+      "禁用 RememberMe"
+    ],
+    "tags": [
+      "frameworks",
+      "shiro",
+      "deserialization",
+      "rememberme",
+      "rce"
+    ],
+    "last_updated": "2026-04-18",
     "references": [
       "https://issues.apache.org/jira/browse/SHIRO-550",
       "https://nvd.nist.gov/vuln/detail/CVE-2016-4437"
@@ -326,16 +632,37 @@
     "name_en": "Prompt Injection",
     "category": "llm",
     "owasp_llm": "LLM01",
-    "cwe": ["CWE-94"],
+    "cwe": [
+      "CWE-94"
+    ],
     "severity": "critical",
     "description": "恶意用户输入操纵 LLM 执行非预期操作",
     "description_en": "Malicious user input manipulates LLM to perform unintended actions",
-    "java_affected": ["Spring AI", "LangChain4j", "DJL"],
+    "java_affected": [
+      "Spring AI",
+      "LangChain4j",
+      "DJL"
+    ],
     "doc_path": "docs/vulnerabilities/llm/prompt-injection.md",
     "semgrep_rule": "docs/tools/semgrep-rules/llm-security.yml",
-    "detection_methods": ["静态分析", "输入模式检测", "对抗性测试"],
-    "mitigation": ["输入净化", "指令隔离", "权限限制", "输出过滤"],
-    "tags": ["llm", "injection", "spring-ai", "langchain4j", "rag"],
+    "detection_methods": [
+      "静态分析",
+      "输入模式检测",
+      "对抗性测试"
+    ],
+    "mitigation": [
+      "输入净化",
+      "指令隔离",
+      "权限限制",
+      "输出过滤"
+    ],
+    "tags": [
+      "llm",
+      "injection",
+      "spring-ai",
+      "langchain4j",
+      "rag"
+    ],
     "last_updated": "2026-04-17",
     "references": [
       "https://owasp.org/www-project-top-10-for-large-language-model-applications/",
@@ -348,16 +675,36 @@
     "name_en": "Insecure LLM Output Handling",
     "category": "llm",
     "owasp_llm": "LLM02",
-    "cwe": ["CWE-79", "CWE-94"],
+    "cwe": [
+      "CWE-79",
+      "CWE-94"
+    ],
     "severity": "high",
     "description": "LLM 生成的输出未经验证直接使用，导致 XSS/RCE",
     "description_en": "LLM generated output used without validation, leading to XSS/RCE",
-    "java_affected": ["Spring AI", "LangChain4j", "ScriptEngine"],
+    "java_affected": [
+      "Spring AI",
+      "LangChain4j",
+      "ScriptEngine"
+    ],
     "doc_path": "docs/vulnerabilities/llm/insecure-output-handling.md",
     "semgrep_rule": "docs/tools/semgrep-rules/llm-security.yml",
-    "detection_methods": ["静态分析", "动态测试"],
-    "mitigation": ["输出编码", "内容安全策略", "沙箱执行", "白名单验证"],
-    "tags": ["llm", "xss", "output-handling", "spring-ai"],
+    "detection_methods": [
+      "静态分析",
+      "动态测试"
+    ],
+    "mitigation": [
+      "输出编码",
+      "内容安全策略",
+      "沙箱执行",
+      "白名单验证"
+    ],
+    "tags": [
+      "llm",
+      "xss",
+      "output-handling",
+      "spring-ai"
+    ],
     "last_updated": "2026-04-17",
     "references": [
       "https://owasp.org/www-project-top-10-for-large-language-model-applications/"
@@ -369,15 +716,37 @@
     "name_en": "Training Data Poisoning",
     "category": "llm",
     "owasp_llm": "LLM03",
-    "cwe": ["CWE-824"],
+    "cwe": [
+      "CWE-824"
+    ],
     "severity": "high",
     "description": "操纵 LLM 训练数据或 RAG 知识库植入后门",
     "description_en": "Manipulating LLM training data or RAG knowledge base to implant backdoors",
-    "java_affected": ["Spring AI RAG", "LangChain4j", "VectorStore"],
+    "java_affected": [
+      "Spring AI RAG",
+      "LangChain4j",
+      "VectorStore"
+    ],
     "doc_path": "docs/vulnerabilities/llm/training-data-poisoning.md",
-    "detection_methods": ["数据审计", "对抗性测试", "异常检测"],
-    "mitigation": ["数据来源验证", "内容扫描", "模型测试", "RAG隔离"],
-    "tags": ["llm", "rag", "data-poisoning", "vector-store", "langchain4j"],
+    "semgrep_rule": "docs/tools/semgrep-rules/llm-security.yml",
+    "detection_methods": [
+      "数据审计",
+      "对抗性测试",
+      "异常检测"
+    ],
+    "mitigation": [
+      "数据来源验证",
+      "内容扫描",
+      "模型测试",
+      "RAG隔离"
+    ],
+    "tags": [
+      "llm",
+      "rag",
+      "data-poisoning",
+      "vector-store",
+      "langchain4j"
+    ],
     "last_updated": "2026-04-17",
     "references": [
       "https://owasp.org/www-project-top-10-for-large-language-model-applications/"
@@ -389,15 +758,36 @@
     "name_en": "Model Denial of Service",
     "category": "llm",
     "owasp_llm": "LLM04",
-    "cwe": ["CWE-770", "CWE-400"],
+    "cwe": [
+      "CWE-770",
+      "CWE-400"
+    ],
     "severity": "medium",
     "description": "通过消耗大量计算资源干扰 LLM 服务可用性",
     "description_en": "Disrupting LLM service availability by consuming computational resources",
-    "java_affected": ["Spring AI", "LangChain4j", "OpenAI API"],
+    "java_affected": [
+      "Spring AI",
+      "LangChain4j",
+      "OpenAI API"
+    ],
     "doc_path": "docs/vulnerabilities/llm/model-dos.md",
-    "detection_methods": ["资源监控", "异常检测"],
-    "mitigation": ["输入长度限制", "速率限制", "资源配额", "超时控制"],
-    "tags": ["llm", "dos", "rate-limiting", "resource-exhaustion"],
+    "semgrep_rule": "docs/tools/semgrep-rules/llm-security.yml",
+    "detection_methods": [
+      "资源监控",
+      "异常检测"
+    ],
+    "mitigation": [
+      "输入长度限制",
+      "速率限制",
+      "资源配额",
+      "超时控制"
+    ],
+    "tags": [
+      "llm",
+      "dos",
+      "rate-limiting",
+      "resource-exhaustion"
+    ],
     "last_updated": "2026-04-17",
     "references": [
       "https://owasp.org/www-project-top-10-for-large-language-model-applications/"
@@ -409,15 +799,39 @@
     "name_en": "LLM Supply Chain Vulnerabilities",
     "category": "llm",
     "owasp_llm": "LLM05",
-    "cwe": ["CWE-1104", "CWE-502"],
+    "cwe": [
+      "CWE-1104",
+      "CWE-502"
+    ],
     "severity": "critical",
     "description": "使用含有漏洞或恶意的 LLM 组件（模型、框架、库）",
     "description_en": "Using vulnerable or malicious LLM components (models, frameworks, libraries)",
-    "java_affected": ["LangChain4j", "DJL", "ONNX Runtime", "预训练模型"],
+    "java_affected": [
+      "LangChain4j",
+      "DJL",
+      "ONNX Runtime",
+      "预训练模型"
+    ],
     "doc_path": "docs/vulnerabilities/llm/supply-chain.md",
-    "detection_methods": ["依赖扫描", "模型签名验证", "行为分析"],
-    "mitigation": ["依赖扫描", "来源验证", "签名验证", "私有仓库"],
-    "tags": ["llm", "supply-chain", "djl", "onnx", "model-security"],
+    "semgrep_rule": "docs/tools/semgrep-rules/llm-security.yml",
+    "detection_methods": [
+      "依赖扫描",
+      "模型签名验证",
+      "行为分析"
+    ],
+    "mitigation": [
+      "依赖扫描",
+      "来源验证",
+      "签名验证",
+      "私有仓库"
+    ],
+    "tags": [
+      "llm",
+      "supply-chain",
+      "djl",
+      "onnx",
+      "model-security"
+    ],
     "last_updated": "2026-04-17",
     "references": [
       "https://owasp.org/www-project-top-10-for-large-language-model-applications/"
@@ -429,16 +843,37 @@
     "name_en": "Sensitive Information Disclosure in LLM",
     "category": "llm",
     "owasp_llm": "LLM06",
-    "cwe": ["CWE-200", "CWE-359"],
+    "cwe": [
+      "CWE-200",
+      "CWE-359"
+    ],
     "severity": "high",
     "description": "LLM 在输出中意外泄露敏感数据",
     "description_en": "LLM accidentally discloses sensitive data in output",
-    "java_affected": ["Spring AI", "LangChain4j", "RAG"],
+    "java_affected": [
+      "Spring AI",
+      "LangChain4j",
+      "RAG"
+    ],
     "doc_path": "docs/vulnerabilities/llm/sensitive-data-disclosure.md",
     "semgrep_rule": "docs/tools/semgrep-rules/llm-security.yml",
-    "detection_methods": ["输出过滤", "敏感信息检测"],
-    "mitigation": ["输出过滤", "数据脱敏", "权限控制", "审计日志"],
-    "tags": ["llm", "data-disclosure", "pii", "rag", "output-filter"],
+    "detection_methods": [
+      "输出过滤",
+      "敏感信息检测"
+    ],
+    "mitigation": [
+      "输出过滤",
+      "数据脱敏",
+      "权限控制",
+      "审计日志"
+    ],
+    "tags": [
+      "llm",
+      "data-disclosure",
+      "pii",
+      "rag",
+      "output-filter"
+    ],
     "last_updated": "2026-04-17",
     "references": [
       "https://owasp.org/www-project-top-10-for-large-language-model-applications/"
@@ -450,16 +885,36 @@
     "name_en": "Insecure LLM Plugin Design",
     "category": "llm",
     "owasp_llm": "LLM07",
-    "cwe": ["CWE-862", "CWE-20"],
+    "cwe": [
+      "CWE-862",
+      "CWE-20"
+    ],
     "severity": "critical",
     "description": "LLM 插件存在安全缺陷，可被利用执行非预期操作",
     "description_en": "LLM plugins have security flaws that can be exploited for unintended actions",
-    "java_affected": ["LangChain4j Tools", "Spring AI Functions"],
+    "java_affected": [
+      "LangChain4j Tools",
+      "Spring AI Functions"
+    ],
     "doc_path": "docs/vulnerabilities/llm/insecure-plugin-design.md",
     "semgrep_rule": "docs/tools/semgrep-rules/llm-security.yml",
-    "detection_methods": ["静态分析", "权限测试"],
-    "mitigation": ["最小权限", "输入验证", "操作审计", "白名单机制"],
-    "tags": ["llm", "plugin", "tool", "agent", "least-privilege"],
+    "detection_methods": [
+      "静态分析",
+      "权限测试"
+    ],
+    "mitigation": [
+      "最小权限",
+      "输入验证",
+      "操作审计",
+      "白名单机制"
+    ],
+    "tags": [
+      "llm",
+      "plugin",
+      "tool",
+      "agent",
+      "least-privilege"
+    ],
     "last_updated": "2026-04-17",
     "references": [
       "https://owasp.org/www-project-top-10-for-large-language-model-applications/"
@@ -471,16 +926,35 @@
     "name_en": "Excessive Agency in LLM",
     "category": "llm",
     "owasp_llm": "LLM08",
-    "cwe": ["CWE-862", "CWE-269"],
+    "cwe": [
+      "CWE-862",
+      "CWE-269"
+    ],
     "severity": "high",
     "description": "LLM 系统被授予过多权限或自主决策能力",
     "description_en": "LLM system granted excessive permissions or autonomous decision-making",
-    "java_affected": ["LangChain4j Agents", "Spring AI Agents"],
+    "java_affected": [
+      "LangChain4j Agents",
+      "Spring AI Agents"
+    ],
     "doc_path": "docs/vulnerabilities/llm/excessive-agency.md",
     "semgrep_rule": "docs/tools/semgrep-rules/llm-security.yml",
-    "detection_methods": ["权限审计", "行为监控"],
-    "mitigation": ["最小权限原则", "敏感操作确认", "权限分级", "审计监控"],
-    "tags": ["llm", "agent", "excessive-agency", "human-in-the-loop"],
+    "detection_methods": [
+      "权限审计",
+      "行为监控"
+    ],
+    "mitigation": [
+      "最小权限原则",
+      "敏感操作确认",
+      "权限分级",
+      "审计监控"
+    ],
+    "tags": [
+      "llm",
+      "agent",
+      "excessive-agency",
+      "human-in-the-loop"
+    ],
     "last_updated": "2026-04-17",
     "references": [
       "https://owasp.org/www-project-top-10-for-large-language-model-applications/"
@@ -492,16 +966,34 @@
     "name_en": "Hardcoded API Key",
     "category": "llm",
     "owasp": "A07:2025",
-    "cwe": ["CWE-798"],
+    "cwe": [
+      "CWE-798"
+    ],
     "severity": "critical",
     "description": "LLM API 密钥硬编码在代码或配置中",
     "description_en": "LLM API keys hardcoded in code or configuration",
-    "java_affected": ["Spring AI", "LangChain4j", "OpenAI SDK"],
+    "java_affected": [
+      "Spring AI",
+      "LangChain4j",
+      "OpenAI SDK"
+    ],
     "doc_path": "docs/vulnerabilities/llm/hardcoded-api-key.md",
     "semgrep_rule": "docs/tools/semgrep-rules/llm-security.yml",
-    "detection_methods": ["静态分析", "密钥扫描"],
-    "mitigation": ["环境变量", "密钥管理服务", "配置加密"],
-    "tags": ["llm", "api-key", "hardcoded-credentials", "spring-ai"],
+    "detection_methods": [
+      "静态分析",
+      "密钥扫描"
+    ],
+    "mitigation": [
+      "环境变量",
+      "密钥管理服务",
+      "配置加密"
+    ],
+    "tags": [
+      "llm",
+      "api-key",
+      "hardcoded-credentials",
+      "spring-ai"
+    ],
     "last_updated": "2026-04-17",
     "references": [
       "https://cwe.mitre.org/data/definitions/798.html"
@@ -513,16 +1005,41 @@
     "name_en": "Server-Side Template Injection",
     "category": "injection",
     "owasp": "A05:2025",
-    "cwe": ["CWE-1336", "CWE-94"],
+    "cwe": [
+      "CWE-1336",
+      "CWE-94"
+    ],
     "severity": "critical",
     "description": "用户输入被嵌入服务端模板引擎执行，导致 RCE",
     "description_en": "User input embedded in server-side template engine execution, leading to RCE",
-    "java_affected": ["FreeMarker", "Velocity", "Thymeleaf", "Pebble", "Jinjava"],
+    "java_affected": [
+      "FreeMarker",
+      "Velocity",
+      "Thymeleaf",
+      "Pebble",
+      "Jinjava"
+    ],
     "doc_path": "docs/vulnerabilities/injection/ssti.md",
     "semgrep_rule": "docs/tools/semgrep-rules/injection.yml",
-    "detection_methods": ["静态分析", "动态测试", "模板引擎指纹识别"],
-    "mitigation": ["沙箱模式", "输入验证", "避免用户输入拼接到模板", "使用无逻辑模板引擎"],
-    "tags": ["injection", "ssti", "freemarker", "velocity", "thymeleaf", "rce"],
+    "detection_methods": [
+      "静态分析",
+      "动态测试",
+      "模板引擎指纹识别"
+    ],
+    "mitigation": [
+      "沙箱模式",
+      "输入验证",
+      "避免用户输入拼接到模板",
+      "使用无逻辑模板引擎"
+    ],
+    "tags": [
+      "injection",
+      "ssti",
+      "freemarker",
+      "velocity",
+      "thymeleaf",
+      "rce"
+    ],
     "last_updated": "2026-04-17",
     "references": [
       "https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/07-Input_Validation_Testing/18-Testing_for_Server-side_Template_Injection",
@@ -535,16 +1052,38 @@
     "name_en": "SpEL Injection",
     "category": "injection",
     "owasp": "A05:2025",
-    "cwe": ["CWE-94", "CWE-917"],
+    "cwe": [
+      "CWE-94",
+      "CWE-917"
+    ],
     "severity": "critical",
     "description": "用户输入被作为 Spring Expression Language 表达式执行，导致 RCE",
     "description_en": "User input executed as Spring Expression Language expression, leading to RCE",
-    "java_affected": ["Spring Framework", "Spring Data", "Spring Security", "Spring Cloud Gateway"],
+    "java_affected": [
+      "Spring Framework",
+      "Spring Data",
+      "Spring Security",
+      "Spring Cloud Gateway"
+    ],
     "doc_path": "docs/vulnerabilities/injection/spel-injection.md",
     "semgrep_rule": "docs/tools/semgrep-rules/injection.yml",
-    "detection_methods": ["静态分析", "动态测试", "表达式注入检测"],
-    "mitigation": ["避免直接解析用户输入的 SpEL", "使用 SimpleEvaluationContext", "输入白名单验证"],
-    "tags": ["injection", "spel", "spring", "rce", "expression-language"],
+    "detection_methods": [
+      "静态分析",
+      "动态测试",
+      "表达式注入检测"
+    ],
+    "mitigation": [
+      "避免直接解析用户输入的 SpEL",
+      "使用 SimpleEvaluationContext",
+      "输入白名单验证"
+    ],
+    "tags": [
+      "injection",
+      "spel",
+      "spring",
+      "rce",
+      "expression-language"
+    ],
     "last_updated": "2026-04-17",
     "references": [
       "https://docs.spring.io/spring-framework/reference/core/expressions.html",
@@ -557,16 +1096,37 @@
     "name_en": "Cross-Site Request Forgery",
     "category": "authentication",
     "owasp": "A01:2025",
-    "cwe": ["CWE-352"],
+    "cwe": [
+      "CWE-352"
+    ],
     "severity": "high",
     "description": "攻击者诱使用户在已认证的 Web 应用上执行非预期操作",
     "description_en": "Attacker tricks user into performing unintended actions on an authenticated web application",
-    "java_affected": ["Spring Security", "Servlet Filter", "Session-based Auth"],
+    "java_affected": [
+      "Spring Security",
+      "Servlet Filter",
+      "Session-based Auth"
+    ],
     "doc_path": "docs/vulnerabilities/authentication/csrf.md",
     "semgrep_rule": "docs/tools/semgrep-rules/authentication.yml",
-    "detection_methods": ["静态分析", "动态测试", "CSRF Token 检测"],
-    "mitigation": ["CSRF Token", "SameSite Cookie", "Origin/Referer 校验", "双重提交 Cookie"],
-    "tags": ["authentication", "csrf", "spring-security", "session", "samesite"],
+    "detection_methods": [
+      "静态分析",
+      "动态测试",
+      "CSRF Token 检测"
+    ],
+    "mitigation": [
+      "CSRF Token",
+      "SameSite Cookie",
+      "Origin/Referer 校验",
+      "双重提交 Cookie"
+    ],
+    "tags": [
+      "authentication",
+      "csrf",
+      "spring-security",
+      "session",
+      "samesite"
+    ],
     "last_updated": "2026-04-17",
     "references": [
       "https://owasp.org/www-community/attacks/csrf",
@@ -579,16 +1139,40 @@
     "name_en": "JWT Security Vulnerability",
     "category": "authentication",
     "owasp": "A07:2025",
-    "cwe": ["CWE-327", "CWE-326", "CWE-200"],
+    "cwe": [
+      "CWE-327",
+      "CWE-326",
+      "CWE-200"
+    ],
     "severity": "high",
     "description": "JWT 实现中的安全缺陷，包括 alg:none 攻击、密钥混淆、弱密钥等",
     "description_en": "Security flaws in JWT implementation including alg:none attack, key confusion, weak keys",
-    "java_affected": ["JJWT", "Nimbus JOSE", "Java JWT (auth0)", "Spring Security OAuth2"],
+    "java_affected": [
+      "JJWT",
+      "Nimbus JOSE",
+      "Java JWT (auth0)",
+      "Spring Security OAuth2"
+    ],
     "doc_path": "docs/vulnerabilities/authentication/jwt-vulnerability.md",
     "semgrep_rule": "docs/tools/semgrep-rules/authentication.yml",
-    "detection_methods": ["静态分析", "Token 篡改测试", "密钥暴力破解"],
-    "mitigation": ["强制算法校验", "使用非对称加密", "密钥强度验证", "Payload 加密"],
-    "tags": ["authentication", "jwt", "token", "algorithm-confusion", "jjwt"],
+    "detection_methods": [
+      "静态分析",
+      "Token 篡改测试",
+      "密钥暴力破解"
+    ],
+    "mitigation": [
+      "强制算法校验",
+      "使用非对称加密",
+      "密钥强度验证",
+      "Payload 加密"
+    ],
+    "tags": [
+      "authentication",
+      "jwt",
+      "token",
+      "algorithm-confusion",
+      "jjwt"
+    ],
     "last_updated": "2026-04-17",
     "references": [
       "https://owasp.org/www-community/attacks/JSON_Web_Token_(JWT)_Cheatsheet_for_Java",
@@ -601,16 +1185,37 @@
     "name_en": "Open Redirect",
     "category": "injection",
     "owasp": "A01:2025",
-    "cwe": ["CWE-601"],
+    "cwe": [
+      "CWE-601"
+    ],
     "severity": "medium",
     "description": "应用基于用户输入进行重定向，可被利用进行钓鱼攻击",
     "description_en": "Application redirects based on user input, exploitable for phishing attacks",
-    "java_affected": ["Spring MVC", "Spring Security", "Servlet sendRedirect"],
+    "java_affected": [
+      "Spring MVC",
+      "Spring Security",
+      "Servlet sendRedirect"
+    ],
     "doc_path": "docs/vulnerabilities/injection/open-redirect.md",
     "semgrep_rule": "docs/tools/semgrep-rules/injection.yml",
-    "detection_methods": ["静态分析", "动态测试", "重定向参数扫描"],
-    "mitigation": ["URL 白名单", "相对路径校验", "禁止外部重定向", "重定向确认页"],
-    "tags": ["injection", "open-redirect", "phishing", "spring-mvc", "url-validation"],
+    "detection_methods": [
+      "静态分析",
+      "动态测试",
+      "重定向参数扫描"
+    ],
+    "mitigation": [
+      "URL 白名单",
+      "相对路径校验",
+      "禁止外部重定向",
+      "重定向确认页"
+    ],
+    "tags": [
+      "injection",
+      "open-redirect",
+      "phishing",
+      "spring-mvc",
+      "url-validation"
+    ],
     "last_updated": "2026-04-17",
     "references": [
       "https://owasp.org/www-community/attacks/Open_Redirect",
@@ -623,16 +1228,37 @@
     "name_en": "CORS Misconfiguration",
     "category": "configuration",
     "owasp": "A05:2025",
-    "cwe": ["CWE-942", "CWE-346"],
+    "cwe": [
+      "CWE-942",
+      "CWE-346"
+    ],
     "severity": "medium",
     "description": "CORS 策略配置不当导致跨域数据泄露或 CSRF 绕过",
     "description_en": "Improperly configured CORS policy leading to cross-origin data disclosure or CSRF bypass",
-    "java_affected": ["Spring Security", "Servlet Filter", "Spring Cloud Gateway"],
+    "java_affected": [
+      "Spring Security",
+      "Servlet Filter",
+      "Spring Cloud Gateway"
+    ],
     "doc_path": "docs/vulnerabilities/configuration/cors-misconfiguration.md",
     "semgrep_rule": "docs/tools/semgrep-rules/configuration.yml",
-    "detection_methods": ["静态分析", "动态测试", "CORS 策略扫描"],
-    "mitigation": ["严格 Origin 白名单", "禁止通配符+凭证组合", "避免动态 Origin 反射"],
-    "tags": ["configuration", "cors", "cross-origin", "spring-security", "csrf-bypass"],
+    "detection_methods": [
+      "静态分析",
+      "动态测试",
+      "CORS 策略扫描"
+    ],
+    "mitigation": [
+      "严格 Origin 白名单",
+      "禁止通配符+凭证组合",
+      "避免动态 Origin 反射"
+    ],
+    "tags": [
+      "configuration",
+      "cors",
+      "cross-origin",
+      "spring-security",
+      "csrf-bypass"
+    ],
     "last_updated": "2026-04-17",
     "references": [
       "https://owasp.org/www-community/attacks/CORS_OriginScrutiny",
@@ -645,16 +1271,40 @@
     "name_en": "ScriptEngine/Groovy Remote Code Execution",
     "category": "injection",
     "owasp": "A05:2025",
-    "cwe": ["CWE-94", "CWE-917"],
+    "cwe": [
+      "CWE-94",
+      "CWE-917"
+    ],
     "severity": "critical",
     "description": "用户输入传入 ScriptEngine.eval() 或 GroovyShell.evaluate() 导致任意代码执行",
     "description_en": "User input passed to ScriptEngine.eval() or GroovyShell.evaluate() leading to arbitrary code execution",
-    "java_affected": ["ScriptEngine", "GroovyShell", "Nashorn", "MVEL", "JShell"],
+    "java_affected": [
+      "ScriptEngine",
+      "GroovyShell",
+      "Nashorn",
+      "MVEL",
+      "JShell"
+    ],
     "doc_path": "docs/vulnerabilities/injection/script-engine-rce.md",
     "semgrep_rule": "docs/tools/semgrep-rules/injection.yml",
-    "detection_methods": ["静态分析", "动态测试", "脚本引擎指纹识别"],
-    "mitigation": ["禁止动态脚本执行", "使用预定义模板", "沙箱隔离"],
-    "tags": ["injection", "rce", "scriptengine", "groovy", "nashorn", "mvel"],
+    "detection_methods": [
+      "静态分析",
+      "动态测试",
+      "脚本引擎指纹识别"
+    ],
+    "mitigation": [
+      "禁止动态脚本执行",
+      "使用预定义模板",
+      "沙箱隔离"
+    ],
+    "tags": [
+      "injection",
+      "rce",
+      "scriptengine",
+      "groovy",
+      "nashorn",
+      "mvel"
+    ],
     "last_updated": "2026-04-17",
     "references": [
       "https://cwe.mitre.org/data/definitions/94.html",
@@ -667,16 +1317,34 @@
     "name_en": "XStream Deserialization RCE",
     "category": "deserialization",
     "owasp": "A08:2025",
-    "cwe": ["CWE-502"],
+    "cwe": [
+      "CWE-502"
+    ],
     "severity": "critical",
     "description": "XStream 默认配置允许反序列化任意 Java 类导致远程代码执行",
     "description_en": "XStream default configuration allows arbitrary Java class deserialization leading to RCE",
-    "java_affected": ["XStream < 1.4.18"],
+    "java_affected": [
+      "XStream < 1.4.18"
+    ],
     "doc_path": "docs/vulnerabilities/deserialization/xstream-deserialization.md",
     "semgrep_rule": "docs/tools/semgrep-rules/deserialization.yml",
-    "detection_methods": ["静态分析", "依赖扫描", "动态测试"],
-    "mitigation": ["升级到 1.4.20+", "配置安全框架白名单", "禁用危险类"],
-    "tags": ["deserialization", "xstream", "rce", "xml", "cwe-502"],
+    "detection_methods": [
+      "静态分析",
+      "依赖扫描",
+      "动态测试"
+    ],
+    "mitigation": [
+      "升级到 1.4.20+",
+      "配置安全框架白名单",
+      "禁用危险类"
+    ],
+    "tags": [
+      "deserialization",
+      "xstream",
+      "rce",
+      "xml",
+      "cwe-502"
+    ],
     "last_updated": "2026-04-17",
     "references": [
       "https://x-stream.github.io/security.html",
@@ -689,16 +1357,38 @@
     "name_en": "Java RMI Deserialization Attack",
     "category": "deserialization",
     "owasp": "A08:2025",
-    "cwe": ["CWE-502", "CWE-976"],
+    "cwe": [
+      "CWE-502",
+      "CWE-976"
+    ],
     "severity": "high",
     "description": "RMI Registry 或 JMX RMI 端口暴露导致反序列化远程代码执行",
     "description_en": "Exposed RMI Registry or JMX RMI ports leading to deserialization RCE",
-    "java_affected": ["Java RMI", "JMX", "Spring HTTP Invoker"],
+    "java_affected": [
+      "Java RMI",
+      "JMX",
+      "Spring HTTP Invoker"
+    ],
     "doc_path": "docs/vulnerabilities/deserialization/java-rmi.md",
     "semgrep_rule": "docs/tools/semgrep-rules/deserialization.yml",
-    "detection_methods": ["端口扫描", "静态分析", "ysoserial 测试"],
-    "mitigation": ["JEP 290 过滤器", "网络隔离", "SSL 加密", "配置认证"],
-    "tags": ["deserialization", "rmi", "jmx", "jep-290", "spring-http-invoker"],
+    "detection_methods": [
+      "端口扫描",
+      "静态分析",
+      "ysoserial 测试"
+    ],
+    "mitigation": [
+      "JEP 290 过滤器",
+      "网络隔离",
+      "SSL 加密",
+      "配置认证"
+    ],
+    "tags": [
+      "deserialization",
+      "rmi",
+      "jmx",
+      "jep-290",
+      "spring-http-invoker"
+    ],
     "last_updated": "2026-04-17",
     "references": [
       "https://openjdk.org/jeps/290",
@@ -711,16 +1401,37 @@
     "name_en": "CRLF Injection",
     "category": "injection",
     "owasp": "A05:2025",
-    "cwe": ["CWE-74", "CWE-113"],
+    "cwe": [
+      "CWE-74",
+      "CWE-113"
+    ],
     "severity": "medium",
     "description": "HTTP 请求中注入 CRLF 字符导致响应拆分、日志注入等问题",
     "description_en": "Injecting CRLF characters in HTTP requests causing response splitting, log injection, etc.",
-    "java_affected": ["Servlet", "Spring MVC", "HTTP Client"],
+    "java_affected": [
+      "Servlet",
+      "Spring MVC",
+      "HTTP Client"
+    ],
     "doc_path": "docs/vulnerabilities/injection/crlf-injection.md",
     "semgrep_rule": "docs/tools/semgrep-rules/injection.yml",
-    "detection_methods": ["静态分析", "动态测试", "CRLF payload 注入"],
-    "mitigation": ["过滤 CRLF 字符", "URL 编码", "重定向白名单", "使用安全 API"],
-    "tags": ["injection", "crlf", "http-response-splitting", "log-injection"],
+    "detection_methods": [
+      "静态分析",
+      "动态测试",
+      "CRLF payload 注入"
+    ],
+    "mitigation": [
+      "过滤 CRLF 字符",
+      "URL 编码",
+      "重定向白名单",
+      "使用安全 API"
+    ],
+    "tags": [
+      "injection",
+      "crlf",
+      "http-response-splitting",
+      "log-injection"
+    ],
     "last_updated": "2026-04-17",
     "references": [
       "https://cwe.mitre.org/data/definitions/113.html",
@@ -733,16 +1444,37 @@
     "name_en": "IP Forgery",
     "category": "authentication",
     "owasp": "A01:2025",
-    "cwe": ["CWE-290", "CWE-346"],
+    "cwe": [
+      "CWE-290",
+      "CWE-346"
+    ],
     "severity": "medium",
     "description": "伪造 X-Forwarded-For 等请求头欺骗服务端获取错误客户端 IP",
     "description_en": "Spoofing X-Forwarded-For and similar headers to trick server into using wrong client IP",
-    "java_affected": ["Servlet", "Spring MVC", "Nginx", "Cloudflare"],
+    "java_affected": [
+      "Servlet",
+      "Spring MVC",
+      "Nginx",
+      "Cloudflare"
+    ],
     "doc_path": "docs/vulnerabilities/authentication/ip-forgery.md",
     "semgrep_rule": "docs/tools/semgrep-rules/authentication.yml",
-    "detection_methods": ["代码审计", "动态测试", "配置审计"],
-    "mitigation": ["不依赖 IP 做关键安全决策", "代理层配置真实 IP", "可信代理链验证"],
-    "tags": ["authentication", "ip-forgery", "x-forwarded-for", "rate-limiting-bypass"],
+    "detection_methods": [
+      "代码审计",
+      "动态测试",
+      "配置审计"
+    ],
+    "mitigation": [
+      "不依赖 IP 做关键安全决策",
+      "代理层配置真实 IP",
+      "可信代理链验证"
+    ],
+    "tags": [
+      "authentication",
+      "ip-forgery",
+      "x-forwarded-for",
+      "rate-limiting-bypass"
+    ],
     "last_updated": "2026-04-17",
     "references": [
       "https://cwe.mitre.org/data/definitions/290.html",
@@ -755,16 +1487,36 @@
     "name_en": "Actuator Unauthorized Access",
     "category": "configuration",
     "owasp": "A05:2025",
-    "cwe": ["CWE-16", "CWE-200"],
+    "cwe": [
+      "CWE-16",
+      "CWE-200"
+    ],
     "severity": "high",
     "description": "Spring Boot Actuator 端点未正确配置访问控制，泄露敏感信息",
     "description_en": "Spring Boot Actuator endpoints without proper access control, leaking sensitive information",
-    "java_affected": ["Spring Boot Actuator"],
+    "java_affected": [
+      "Spring Boot Actuator"
+    ],
     "doc_path": "docs/vulnerabilities/configuration/actuator.md",
     "semgrep_rule": "docs/tools/semgrep-rules/configuration.yml",
-    "detection_methods": ["路径扫描", "配置审计", "依赖扫描"],
-    "mitigation": ["最小化暴露端点", "禁用高危端点", "配置访问控制", "独立管理端口"],
-    "tags": ["configuration", "actuator", "spring-boot", "info-disclosure", "heapdump"],
+    "detection_methods": [
+      "路径扫描",
+      "配置审计",
+      "依赖扫描"
+    ],
+    "mitigation": [
+      "最小化暴露端点",
+      "禁用高危端点",
+      "配置访问控制",
+      "独立管理端口"
+    ],
+    "tags": [
+      "configuration",
+      "actuator",
+      "spring-boot",
+      "info-disclosure",
+      "heapdump"
+    ],
     "last_updated": "2026-04-17",
     "references": [
       "https://docs.spring.io/spring-boot/reference/actuator/security.html",
@@ -777,16 +1529,38 @@
     "name_en": "JSONP Hijacking",
     "category": "authentication",
     "owasp": "A01:2025",
-    "cwe": ["CWE-346", "CWE-352"],
+    "cwe": [
+      "CWE-346",
+      "CWE-352"
+    ],
     "severity": "medium",
     "description": "利用 JSONP 跨域获取用户已认证接口的敏感数据",
     "description_en": "Using JSONP to cross-origin access sensitive data from authenticated endpoints",
-    "java_affected": ["Servlet", "Spring MVC", "Jackson", "Fastjson"],
+    "java_affected": [
+      "Servlet",
+      "Spring MVC",
+      "Jackson",
+      "Fastjson"
+    ],
     "doc_path": "docs/vulnerabilities/authentication/jsonp-hijacking.md",
     "semgrep_rule": "docs/tools/semgrep-rules/authentication.yml",
-    "detection_methods": ["静态分析", "动态测试", "跨域脚本加载测试"],
-    "mitigation": ["使用 CORS 替代 JSONP", "校验 callback 格式", "校验 Referer/Origin"],
-    "tags": ["authentication", "jsonp", "cross-origin", "csrf", "callback-injection"],
+    "detection_methods": [
+      "静态分析",
+      "动态测试",
+      "跨域脚本加载测试"
+    ],
+    "mitigation": [
+      "使用 CORS 替代 JSONP",
+      "校验 callback 格式",
+      "校验 Referer/Origin"
+    ],
+    "tags": [
+      "authentication",
+      "jsonp",
+      "cross-origin",
+      "csrf",
+      "callback-injection"
+    ],
     "last_updated": "2026-04-17",
     "references": [
       "https://cwe.mitre.org/data/definitions/346.html",
@@ -799,16 +1573,38 @@
     "name_en": "URL Whitelist Bypass",
     "category": "authentication",
     "owasp": "A01:2025",
-    "cwe": ["CWE-20", "CWE-601"],
+    "cwe": [
+      "CWE-20",
+      "CWE-601"
+    ],
     "severity": "medium",
     "description": "利用 URL 解析差异、编码变体绕过基于 URL 的访问控制",
     "description_en": "Bypassing URL-based access control via parsing differences and encoding variants",
-    "java_affected": ["Spring Security", "Servlet Filter", "Nginx"],
+    "java_affected": [
+      "Spring Security",
+      "Servlet Filter",
+      "Nginx"
+    ],
     "doc_path": "docs/vulnerabilities/authentication/url-whitelist-bypass.md",
     "semgrep_rule": "docs/tools/semgrep-rules/authentication.yml",
-    "detection_methods": ["配置审计", "动态测试", "URL 编码变体测试"],
-    "mitigation": ["使用 mvcMatchers", "URL 规范化", "协议白名单", "IP 内网检查"],
-    "tags": ["authentication", "url-bypass", "ssrf", "antmatchers", "path-traversal"],
+    "detection_methods": [
+      "配置审计",
+      "动态测试",
+      "URL 编码变体测试"
+    ],
+    "mitigation": [
+      "使用 mvcMatchers",
+      "URL 规范化",
+      "协议白名单",
+      "IP 内网检查"
+    ],
+    "tags": [
+      "authentication",
+      "url-bypass",
+      "ssrf",
+      "antmatchers",
+      "path-traversal"
+    ],
     "last_updated": "2026-04-17",
     "references": [
       "https://cwe.mitre.org/data/definitions/20.html",
@@ -821,16 +1617,39 @@
     "name_en": "Swagger/API Document Information Disclosure",
     "category": "configuration",
     "owasp": "A05:2025",
-    "cwe": ["CWE-200", "CWE-16"],
+    "cwe": [
+      "CWE-200",
+      "CWE-16"
+    ],
     "severity": "low",
     "description": "生产环境暴露 Swagger/OpenAPI 文档，泄露 API 接口和敏感信息",
     "description_en": "Exposing Swagger/OpenAPI docs in production, leaking API structure and sensitive info",
-    "java_affected": ["SpringDoc", "SpringFox", "Knife4j", "OpenAPI"],
+    "java_affected": [
+      "SpringDoc",
+      "SpringFox",
+      "Knife4j",
+      "OpenAPI"
+    ],
     "doc_path": "docs/vulnerabilities/configuration/swagger-info-disclosure.md",
     "semgrep_rule": "docs/tools/semgrep-rules/configuration.yml",
-    "detection_methods": ["路径扫描", "配置审计", "依赖扫描"],
-    "mitigation": ["生产环境禁用", "修改默认路径", "访问控制", "清理敏感注解"],
-    "tags": ["configuration", "swagger", "openapi", "info-disclosure", "springdoc"],
+    "detection_methods": [
+      "路径扫描",
+      "配置审计",
+      "依赖扫描"
+    ],
+    "mitigation": [
+      "生产环境禁用",
+      "修改默认路径",
+      "访问控制",
+      "清理敏感注解"
+    ],
+    "tags": [
+      "configuration",
+      "swagger",
+      "openapi",
+      "info-disclosure",
+      "springdoc"
+    ],
     "last_updated": "2026-04-17",
     "references": [
       "https://cwe.mitre.org/data/definitions/200.html",
@@ -843,20 +1662,174 @@
     "name_en": "QLExpress Remote Code Execution",
     "category": "injection",
     "owasp": "A05:2025",
-    "cwe": ["CWE-94", "CWE-917"],
+    "cwe": [
+      "CWE-94",
+      "CWE-917"
+    ],
     "severity": "high",
     "description": "用户输入传入 QLExpress 等规则引擎执行，可触发任意代码执行",
     "description_en": "User input passed to QLExpress rule engine execution, leading to arbitrary code execution",
-    "java_affected": ["QLExpress", "Aviator", "Drools", "MVEL"],
+    "java_affected": [
+      "QLExpress",
+      "Aviator",
+      "Drools",
+      "MVEL"
+    ],
     "doc_path": "docs/vulnerabilities/injection/qlexpress-rce.md",
     "semgrep_rule": "docs/tools/semgrep-rules/injection.yml",
-    "detection_methods": ["静态分析", "代码审计", "表达式注入测试"],
-    "mitigation": ["使用预定义模板", "禁止 import 和 Java 类访问", "注册安全自定义函数"],
-    "tags": ["injection", "qlexpress", "rule-engine", "rce", "aviator", "drools"],
+    "detection_methods": [
+      "静态分析",
+      "代码审计",
+      "表达式注入测试"
+    ],
+    "mitigation": [
+      "使用预定义模板",
+      "禁止 import 和 Java 类访问",
+      "注册安全自定义函数"
+    ],
+    "tags": [
+      "injection",
+      "qlexpress",
+      "rule-engine",
+      "rce",
+      "aviator",
+      "drools"
+    ],
     "last_updated": "2026-04-17",
     "references": [
       "https://cwe.mitre.org/data/definitions/94.html",
       "https://github.com/alibaba/QLExpress"
+    ]
+  },
+  {
+    "id": "STRUTS2-RCE",
+    "name": "Struts2 OGNL 注入 RCE",
+    "name_en": "Struts2 OGNL Injection RCE",
+    "category": "frameworks",
+    "owasp": "A08:2025",
+    "cwe": [
+      "CWE-94",
+      "CWE-917"
+    ],
+    "severity": "critical",
+    "description": "Struts2 OGNL 表达式注入导致远程代码执行",
+    "description_en": "Struts2 OGNL expression injection leading to RCE",
+    "java_affected": [
+      "Apache Struts2"
+    ],
+    "doc_path": "docs/frameworks/struts2.md",
+    "semgrep_rule": "docs/tools/semgrep-rules/frameworks.yml",
+    "detection_methods": [
+      "依赖扫描",
+      "动态测试",
+      "OGNL 注入检测"
+    ],
+    "mitigation": [
+      "升级到安全版本",
+      "禁用动态方法调用",
+      "配置 OGNL 安全限制",
+      "WAF 规则"
+    ],
+    "tags": [
+      "frameworks",
+      "struts2",
+      "ognl",
+      "rce",
+      "cve-2017-5638"
+    ],
+    "last_updated": "2026-04-18",
+    "references": [
+      "https://struts.apache.org/security/",
+      "https://nvd.nist.gov/vuln/detail/CVE-2017-5638",
+      "https://nvd.nist.gov/vuln/detail/CVE-2018-11776"
+    ]
+  },
+  {
+    "id": "SPRING-AI-SECURITY",
+    "name": "Spring AI 安全风险",
+    "name_en": "Spring AI Security Risks",
+    "category": "frameworks",
+    "owasp_llm": "LLM01",
+    "cwe": [
+      "CWE-94"
+    ],
+    "severity": "high",
+    "description": "Spring AI Prompt 注入、API 密钥泄露、RAG 投毒等安全风险",
+    "description_en": "Spring AI security risks including Prompt injection, API key leakage, RAG poisoning",
+    "java_affected": [
+      "Spring AI",
+      "OpenAI",
+      "Ollama",
+      "HuggingFace"
+    ],
+    "doc_path": "docs/frameworks/spring-ai.md",
+    "semgrep_rule": "docs/tools/semgrep-rules/frameworks.yml",
+    "detection_methods": [
+      "静态分析",
+      "依赖扫描",
+      "Prompt 注入测试"
+    ],
+    "mitigation": [
+      "Prompt 净化",
+      "API 密钥安全管理",
+      "工具调用权限控制",
+      "RAG 数据验证"
+    ],
+    "tags": [
+      "frameworks",
+      "spring-ai",
+      "llm",
+      "prompt-injection",
+      "rag"
+    ],
+    "last_updated": "2026-04-18",
+    "references": [
+      "https://docs.spring.io/spring-ai/reference/security.html",
+      "https://owasp.org/www-project-top-10-for-large-language-model-applications/"
+    ]
+  },
+  {
+    "id": "LANGCHAIN4J-SECURITY",
+    "name": "LangChain4j 安全风险",
+    "name_en": "LangChain4j Security Risks",
+    "category": "frameworks",
+    "owasp_llm": "LLM01",
+    "cwe": [
+      "CWE-94"
+    ],
+    "severity": "high",
+    "description": "LangChain4j Agent 过度自主权、工具调用滥用、Prompt 注入等安全风险",
+    "description_en": "LangChain4j security risks including excessive agency, tool call abuse, Prompt injection",
+    "java_affected": [
+      "LangChain4j",
+      "OpenAI",
+      "Ollama",
+      "HuggingFace"
+    ],
+    "doc_path": "docs/frameworks/langchain4j.md",
+    "semgrep_rule": "docs/tools/semgrep-rules/frameworks.yml",
+    "detection_methods": [
+      "静态分析",
+      "依赖扫描",
+      "Agent 安全测试"
+    ],
+    "mitigation": [
+      "最小权限原则",
+      "工具调用审计",
+      "人工确认机制",
+      "输入输出过滤"
+    ],
+    "tags": [
+      "frameworks",
+      "langchain4j",
+      "llm",
+      "agent",
+      "tool-calling"
+    ],
+    "last_updated": "2026-04-18",
+    "references": [
+      "https://docs.langchain4j.dev/",
+      "https://owasp.org/www-project-top-10-for-large-language-model-applications/"
     ]
   }
 ]

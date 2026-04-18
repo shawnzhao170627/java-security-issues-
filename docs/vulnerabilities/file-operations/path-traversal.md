@@ -26,7 +26,7 @@ doc_version: "1.0"
 | CWE | CWE-22 |
 | 严重程度 | 高危 |
 
-## 漏洞类型
+## 攻击类型
 
 ### 1. 相对路径遍历
 
@@ -82,6 +82,28 @@ public void download(@RequestParam String filename, HttpServletResponse response
     }
 }
 ```
+
+## 检测方法
+
+### 静态检测
+
+1. **关键词搜索**：查找路径拼接模式
+   ```bash
+   grep -rn "new File.*+" src/
+   grep -rn "Paths.get.*+" src/
+   grep -rn "FileInputStream.*+" src/
+   ```
+
+2. **使用 Semgrep 规则**：
+   ```bash
+   semgrep --config ./semgrep-rules/file-operations.yml src/
+   ```
+
+### 动态检测
+
+1. **Burp Suite**：使用 Path Traversal 模块测试
+2. **OWASP ZAP**：主动扫描路径遍历漏洞
+3. **手动测试**：在文件参数中注入 `../../../etc/passwd` 等遍历序列
 
 ## 防护措施
 

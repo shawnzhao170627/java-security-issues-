@@ -2,11 +2,11 @@
 id: SCRIPT-ENGINE-RCE
 name: ScriptEngine/Groovy 远程代码执行
 severity: critical
-owasp: A05:2025
-cwe: [CWE-94, CWE-917]
+owasp: "A05:2025"
+cwe: ["CWE-94", "CWE-917"]
 category: injection
 frameworks: [ScriptEngine, Groovy, Nashorn, JShell]
-last_updated: 2026-04-17
+last_updated: "2026-04-17"
 doc_version: "1.0"
 ---
 

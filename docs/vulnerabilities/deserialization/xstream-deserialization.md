@@ -2,11 +2,11 @@
 id: XSTREAM-DESERIALIZATION
 name: XStream 反序列化 RCE
 severity: critical
-owasp: A08:2025
-cwe: [CWE-502]
+owasp: "A08:2025"
+cwe: ["CWE-502"]
 category: deserialization
 frameworks: [XStream]
-last_updated: 2026-04-17
+last_updated: "2026-04-17"
 doc_version: "1.0"
 ---
 

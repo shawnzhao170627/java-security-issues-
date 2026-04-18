@@ -1,5 +1,5 @@
 rules:
-  - id: java-deserialization-objectinputstream
+  - id: java-deserialization-deserialization-1
     patterns:
       - pattern: |
           new ObjectInputStream(...).readObject()
@@ -22,7 +22,7 @@ rules:
         - https://owasp.org/www-community/attacks/Deserialization_of_untrusted_data
         - https://cwe.mitre.org/data/definitions/502.html
 
-  - id: java-deserialization-fastjson-autotype
+  - id: java-deserialization-deserialization-2
     patterns:
       - pattern-either:
           - pattern: |
@@ -48,7 +48,7 @@ rules:
         - https://github.com/alibaba/fastjson/wiki/security_update
         - https://cwe.mitre.org/data/definitions/502.html
 
-  - id: java-deserialization-jackson-defaulttyping
+  - id: java-deserialization-deserialization-3
     patterns:
       - pattern: |
           $MAPPER.enableDefaultTyping(...)
@@ -71,7 +71,7 @@ rules:
         - https://github.com/FasterXML/jackson-docs/wiki/JacksonPolymorphicDeserialization
         - https://cwe.mitre.org/data/definitions/502.html
 
-  - id: java-deserialization-snakeyaml-unsafe
+  - id: java-deserialization-deserialization-4
     patterns:
       - pattern: |
           new Yaml(...).load(...)

@@ -67,9 +67,9 @@ The most comprehensive knowledge base for Java & LLM application security issues
 
 | 标准 | 说明 | 文档 |
 |------|------|------|
-| OWASP Top 10:2025 | Web 应用安全风险 Top 10 | [中文](docs/classification/owasp-top10) / [English](docs/classification/owasp-top10-en) |
-| CWE Top 25:2025 | 最危险软件弱点 Top 25 | [中文](docs/classification/cwe-top25) / [English](docs/classification/cwe-top25-en) |
-| Java 专项分类 | Java 特有安全问题 | [中文](docs/classification/java-specific) / [English](docs/classification/java-specific-en) |
+| OWASP Top 10:2025 | Web 应用安全风险 Top 10 | [中文](docs/classification/owasp-top10) |
+| CWE Top 25:2025 | 最危险软件弱点 Top 25 | [中文](docs/classification/cwe-top25) |
+| Java 专项分类 | Java 特有安全问题 | [中文](docs/classification/java-specific) |
 
 #### LLM 应用安全
 
@@ -89,9 +89,9 @@ The most comprehensive knowledge base for Java & LLM application security issues
 | 认证授权类漏洞 | 7+ | [查看](docs/vulnerabilities/authentication/) |
 | 反序列化漏洞 | 3+ | [查看](docs/vulnerabilities/deserialization/) |
 | 配置安全类 | 4+ | [查看](docs/vulnerabilities/configuration/) |
-| 加密安全类 | 5+ | [查看](docs/vulnerabilities/crypto/) |
-| 业务逻辑漏洞 | 6+ | [查看](docs/vulnerabilities/business-logic/) |
-| 框架组件漏洞 | 8+ | [查看](docs/vulnerabilities/frameworks/) |
+| 加密安全类 | 5+ | [查看](docs/vulnerabilities/crypto/crypto-failure) |
+| 业务逻辑漏洞 | 6+ | *待补充* |
+| 框架组件漏洞 | 8+ | *见框架专项* |
 
 #### 重点漏洞文档
 

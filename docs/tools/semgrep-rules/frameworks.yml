@@ -1,0 +1,211 @@
+rules:
+  # ============================================
+  # Log4j2 JNDI - Log4j 远程代码执行
+  # ============================================
+  - id: java-frameworks-log4j-jndi
+    patterns:
+      - pattern-either:
+          - pattern: |
+              JndiLookup.class
+          - pattern: |
+              $LOGGER.error($REQ.getParameter(...));
+          - pattern: |
+              $LOGGER.info($REQ.getParameter(...));
+          - pattern: |
+              $LOGGER.warn($REQ.getParameter(...));
+          - pattern: |
+              $LOGGER.debug($REQ.getParameter(...));
+    message: |
+      检测到 Log4j2 JNDI 注入风险：用户输入被传入 Log4j2 日志方法，可能触发 ${jndi:ldap://...} 攻击。
+      请升级 Log4j2 到 2.17.1+、禁用 JNDI Lookup、或使用 WAF 规则拦截。
+      Log4j2 JNDI injection detected: User input passed to Log4j2 logging, may trigger ${jndi:ldap://...} attack.
+      Upgrade Log4j2 to 2.17.1+, disable JNDI Lookup, or use WAF rules.
+    severity: ERROR
+    languages:
+      - java
+    metadata:
+      category: security
+      subcategory: frameworks
+      cwe:
+        - CWE-502
+      owasp:
+        - A08:2025 - Software or Data Integrity Failures
+      confidence: HIGH
+      references:
+        - https://logging.apache.org/log4j/2.x/security.html
+        - https://nvd.nist.gov/vuln/detail/CVE-2021-44228
+
+  # ============================================
+  # Fastjson AutoType - Fastjson 反序列化 RCE
+  # ============================================
+  - id: java-frameworks-fastjson-autotype
+    patterns:
+      - pattern-either:
+          - pattern: |
+              ParserConfig.getGlobalInstance().setAutoTypeSupport(true);
+          - pattern: |
+              $CONFIG.setAutoTypeSupport(true);
+          - pattern: |
+              JSON.parseObject($INPUT, $CLASS, Feature.SupportNonPublicField);
+          - pattern: |
+              JSON.parse($INPUT);
+    message: |
+      检测到 Fastjson AutoType 反序列化风险：开启 AutoType 或使用不安全的 parse 方法。
+      请关闭 AutoType、开启 SafeMode、升级到 1.2.83+。
+      Fastjson AutoType deserialization detected: AutoType enabled or unsafe parse method used.
+      Disable AutoType, enable SafeMode, upgrade to 1.2.83+.
+    severity: ERROR
+    languages:
+      - java
+    metadata:
+      category: security
+      subcategory: frameworks
+      cwe:
+        - CWE-502
+      owasp:
+        - A08:2025 - Software or Data Integrity Failures
+      confidence: HIGH
+      references:
+        - https://github.com/alibaba/fastjson/wiki/security_update
+        - https://nvd.nist.gov/vuln/detail/CVE-2022-25845
+
+  # ============================================
+  # Shiro RememberMe - Shiro 反序列化 RCE
+  # ============================================
+  - id: java-frameworks-shiro-rememberme
+    patterns:
+      - pattern-either:
+          - pattern: |
+              new CookieRememberMeManager();
+          - pattern: |
+              $SHIRO_FILTER.setSecurityManager($SECURITY_MANAGER);
+          - pattern: |
+              rememberMe=$VALUE
+    message: |
+      检测到 Shiro RememberMe 反序列化风险：Shiro 使用默认密钥加密 RememberMe Cookie。
+      请升级到最新版本、更换加密密钥（不使用默认 kPH+bIxk5D2deZiIxcaaaA==）、或禁用 RememberMe。
+      Shiro RememberMe deserialization detected: Shiro uses default key to encrypt RememberMe Cookie.
+      Upgrade to latest version, change encryption key (not default kPH+bIxk5D2deZiIxcaaaA==), or disable RememberMe.
+    severity: ERROR
+    languages:
+      - java
+    metadata:
+      category: security
+      subcategory: frameworks
+      cwe:
+        - CWE-502
+      owasp:
+        - A08:2025 - Software or Data Integrity Failures
+      confidence: MEDIUM
+      references:
+        - https://issues.apache.org/jira/browse/SHIRO-550
+        - https://nvd.nist.gov/vuln/detail/CVE-2016-4437
+
+  # ============================================
+  # Struts2 OGNL - Struts2 OGNL 表达式注入 RCE
+  # ============================================
+  - id: java-frameworks-struts2-ognl
+    patterns:
+      - pattern-either:
+          - pattern: |
+              struts.enable.DynamicMethodInvocation=true
+          - pattern: |
+              Ognl.getValue($INPUT, ...);
+          - pattern: |
+              Ognl.parseExpression($INPUT);
+          - pattern: |
+              $ACTIONContext.getValueStack().findValue($INPUT);
+    message: |
+      检测到 Struts2 OGNL 注入风险：使用动态方法调用或直接解析 OGNL 表达式。
+      请升级 Struts2 到最新版本、禁用动态方法调用、配置 OGNL 安全限制。
+      Struts2 OGNL injection detected: Dynamic method invocation enabled or direct OGNL expression parsing.
+      Upgrade Struts2 to latest version, disable DynamicMethodInvocation, configure OGNL security restrictions.
+    severity: ERROR
+    languages:
+      - java
+    metadata:
+      category: security
+      subcategory: frameworks
+      cwe:
+        - CWE-94
+        - CWE-917
+      owasp:
+        - A08:2025 - Software or Data Integrity Failures
+      confidence: HIGH
+      references:
+        - https://struts.apache.org/security/
+        - https://nvd.nist.gov/vuln/detail/CVE-2017-5638
+        - https://nvd.nist.gov/vuln/detail/CVE-2018-11776
+
+  # ============================================
+  # Spring AI - Prompt 注入与 API Key 泄露
+  # ============================================
+  - id: java-frameworks-spring-ai-prompt-injection
+    patterns:
+      - pattern-either:
+          - pattern: |
+              $CHAT_MODEL.call($USER_INPUT)
+          - pattern: |
+              new Prompt($USER_INPUT)
+          - pattern: |
+              spring.ai.openai.api-key=$PLAINTEXT_KEY
+    message: |
+      检测到 Spring AI 安全风险：用户输入直接传入 LLM 或 API Key 硬编码。
+      请使用 SystemMessage/UserMessage 分离指令、净化用户输入、将 API Key 存储在环境变量中。
+      Spring AI security risk: User input passed directly to LLM or API key hardcoded.
+      Use SystemMessage/UserMessage separation, sanitize user input, store API keys in environment variables.
+    severity: WARNING
+    languages:
+      - java
+    metadata:
+      category: security
+      subcategory: frameworks
+      cwe:
+        - CWE-94
+      owasp:
+        - LLM01 - Prompt Injection
+      confidence: MEDIUM
+      references:
+        - https://docs.spring.io/spring-ai/reference/security.html
+        - https://owasp.org/www-project-top-10-for-large-language-model-applications/
+
+  # ============================================
+  # LangChain4j - Agent 工具调用安全
+  # ============================================
+  - id: java-frameworks-langchain4j-tool-security
+    patterns:
+      - pattern-either:
+          - pattern: |
+              @Tool("执行系统命令")
+              public $TYPE $METHOD(String $PARAM) {
+                  Runtime.getRuntime().exec(...);
+              }
+          - pattern: |
+              @Tool($DESC)
+              public $TYPE $METHOD(...) {
+                  Runtime.getRuntime().exec($CMD);
+              }
+          - pattern: |
+              AiServices.builder($CLASS.class)
+                  .chatLanguageModel($MODEL)
+                  .tools($TOOL)
+                  .build();
+    message: |
+      检测到 LangChain4j Agent 安全风险：工具方法包含危险操作或 Agent 缺少安全配置。
+      请遵循最小权限原则、对敏感操作增加人工确认、添加工具调用审计日志。
+      LangChain4j Agent security risk: Tool methods contain dangerous operations or Agent lacks security configuration.
+      Follow least privilege principle, add human approval for sensitive operations, add tool call audit logging.
+    severity: WARNING
+    languages:
+      - java
+    metadata:
+      category: security
+      subcategory: frameworks
+      cwe:
+        - CWE-94
+      owasp:
+        - LLM08 - Excessive Agency
+      confidence: MEDIUM
+      references:
+        - https://docs.langchain4j.dev/
+        - https://owasp.org/www-project-top-10-for-large-language-model-applications/

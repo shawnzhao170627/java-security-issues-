@@ -1,3 +1,14 @@
+---
+id: SPRING-FRAMEWORK
+name: Spring 框架安全
+severity: critical
+cwe: ["CWE-94", "CWE-502", "CWE-16"]
+category: frameworks
+frameworks: [Spring Framework, Spring Security, Spring Cloud]
+last_updated: "2026-04-18"
+doc_version: "1.0"
+---
+
 # Spring 框架安全
 
 > 最后更新：2026-04-17

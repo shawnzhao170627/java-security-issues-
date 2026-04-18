@@ -2,11 +2,11 @@
 id: CRLF-INJECTION
 name: CRLF 注入
 severity: medium
-owasp: A05:2025
-cwe: [CWE-74, CWE-113]
+owasp: "A05:2025"
+cwe: ["CWE-74", "CWE-113"]
 category: injection
 frameworks: [HTTP, Servlet, Spring MVC]
-last_updated: 2026-04-17
+last_updated: "2026-04-17"
 doc_version: "1.0"
 ---
 

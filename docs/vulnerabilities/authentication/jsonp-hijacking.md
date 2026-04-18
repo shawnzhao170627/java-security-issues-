@@ -2,11 +2,11 @@
 id: JSONP-HIJACKING
 name: JSONP 劫持
 severity: medium
-owasp: A01:2025
-cwe: [CWE-346, CWE-352]
+owasp: "A01:2025"
+cwe: ["CWE-346", "CWE-352"]
 category: authentication
 frameworks: [Servlet, Spring MVC, Jackson, Fastjson]
-last_updated: 2026-04-17
+last_updated: "2026-04-17"
 doc_version: "1.0"
 ---
 

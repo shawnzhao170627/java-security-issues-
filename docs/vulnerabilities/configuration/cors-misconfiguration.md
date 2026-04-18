@@ -2,7 +2,7 @@
 id: CORS-MISCONFIGURATION
 name: CORS 配置错误
 severity: high
-owasp: "A02:2025"
+owasp: "A05:2025"
 cwe: ["CWE-942", "CWE-346"]
 category: configuration
 frameworks: [Spring MVC, Spring Boot, Spring Security, Servlet]
@@ -22,7 +22,7 @@ doc_version: "1.0"
 
 | 维度 | 评级 |
 |------|------|
-| OWASP Top 10 | A02:2025 - Security Misconfiguration |
+| OWASP Top 10 | A05:2025 - Security Misconfiguration |
 | CWE | CWE-942 / CWE-346 |
 | 严重程度 | 高危 |
 

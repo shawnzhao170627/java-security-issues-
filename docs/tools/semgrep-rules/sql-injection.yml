@@ -1,5 +1,5 @@
 rules:
-  - id: java-sql-injection-string-concat
+  - id: java-injection-sql-injection-1
     patterns:
       - pattern-inside: |
           String $SQL = ... + $VAR + ...;
@@ -28,7 +28,7 @@ rules:
         - https://owasp.org/www-community/attacks/SQL_Injection
         - https://cwe.mitre.org/data/definitions/89.html
 
-  - id: java-sql-injection-mybatis-dollar
+  - id: java-injection-sql-injection-2
     patterns:
       - pattern: |
           ${...}
@@ -56,7 +56,7 @@ rules:
         - https://mybatis.org/mybatis-3/sqlmap-xml.html
         - https://cwe.mitre.org/data/definitions/89.html
 
-  - id: java-sql-injection-jpa-concat
+  - id: java-injection-sql-injection-3
     patterns:
       - pattern: |
           $EM.createQuery("..." + $VAR + "...");

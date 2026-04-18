@@ -1,0 +1,248 @@
+rules:
+  # ============================================
+  # Broken Access Control - 访问控制失效
+  # ============================================
+  - id: java-authentication-broken-access-control
+    patterns:
+      - pattern-either:
+          - pattern: |
+              @GetMapping("/admin/...")
+              public $TYPE $METHOD(...) {
+                ...
+                $REPO.findById($ID);
+                ...
+              }
+          - pattern: |
+              @DeleteMapping(...)
+              public $TYPE $METHOD(@PathVariable $ID_TYPE $ID, ...) {
+                ...
+                $REPO.deleteById($ID);
+                ...
+              }
+          - pattern: |
+              $REPO.findAll();
+    message: |
+      检测到访问控制失效风险：API 端点可能缺少权限校验。
+      请确保每个敏感端点都有适当的权限检查（如 @PreAuthorize）。
+      Broken Access Control detected: API endpoint may lack authorization checks.
+      Ensure each sensitive endpoint has proper authorization (e.g., @PreAuthorize).
+    severity: WARNING
+    languages:
+      - java
+    metadata:
+      category: security
+      subcategory: authentication
+      cwe:
+        - CWE-862
+      owasp:
+        - A01:2025 - Broken Access Control
+      confidence: LOW
+      references:
+        - https://owasp.org/Top10/A01_2021-Broken_Access_Control/
+        - https://cwe.mitre.org/data/definitions/862.html
+
+  # ============================================
+  # Authentication Bypass - 身份认证绕过
+  # ============================================
+  - id: java-authentication-authentication-bypass
+    patterns:
+      - pattern-either:
+          - pattern: |
+              if ($REQ.getParameter("role").equals("admin")) { ... }
+          - pattern: |
+              $SESSION.setAttribute("role", $REQ.getParameter("role"));
+          - pattern: |
+              if ($REQ.getHeader("X-Role") != null) { ... }
+          - pattern: |
+              String $USER = $REQ.getParameter("username");
+              String $PASS = $REQ.getParameter("password");
+              if ($USER.equals("...") && $PASS.equals("...")) { ... }
+    message: |
+      检测到身份认证绕过风险：基于客户端可控参数（请求参数、HTTP 头）进行认证判断。
+      请使用服务端安全认证机制，不信任客户端提交的身份信息。
+      Authentication Bypass detected: Authentication based on client-controllable parameters.
+      Use server-side secure authentication mechanisms; do not trust client-submitted identity.
+    severity: ERROR
+    languages:
+      - java
+    metadata:
+      category: security
+      subcategory: authentication
+      cwe:
+        - CWE-287
+      owasp:
+        - A07:2025 - Identity and Authentication Failures
+      confidence: MEDIUM
+      references:
+        - https://owasp.org/www-community/attacks/Authentication_Bypass
+        - https://cwe.mitre.org/data/definitions/287.html
+
+  # ============================================
+  # CSRF - 跨站请求伪造
+  # ============================================
+  - id: java-authentication-csrf
+    patterns:
+      - pattern-either:
+          - pattern: |
+              http.csrf().disable();
+          - pattern: |
+              http.csrf((csrf) -> csrf.disable());
+          - pattern: |
+              CsrfTokenRepository $REPO = new CookieCsrfTokenRepository();
+    message: |
+      检测到 CSRF 防护缺失：Spring Security CSRF 保护被显式禁用。
+      请保持 CSRF 保护启用，或对无状态 API 使用 Token 机制替代。
+      CSRF protection disabled: Spring Security CSRF protection is explicitly disabled.
+      Keep CSRF protection enabled or use token-based mechanisms for stateless APIs.
+    severity: WARNING
+    languages:
+      - java
+    metadata:
+      category: security
+      subcategory: authentication
+      cwe:
+        - CWE-352
+      owasp:
+        - A01:2025 - Broken Access Control
+      confidence: HIGH
+      references:
+        - https://owasp.org/www-community/attacks/csrf
+        - https://cwe.mitre.org/data/definitions/352.html
+
+  # ============================================
+  # JWT Vulnerability - JWT 安全漏洞
+  # ============================================
+  - id: java-authentication-jwt-vulnerability
+    patterns:
+      - pattern-either:
+          - pattern: |
+              JwtParser $PARSER = Jwts.parser().setSigningKey(...);
+              ...
+              $PARSER.parseClaimsJws($TOKEN);
+          - pattern: |
+              Jwts.parser().parse($TOKEN);
+          - pattern: |
+              Algorithm $ALG = Algorithm.none();
+    message: |
+      检测到 JWT 安全风险：可能缺少算法强制校验或使用了不安全的解析方式。
+      请强制指定签名算法（如 .requireSubject()），避免 alg:none 攻击。
+      JWT vulnerability detected: May lack algorithm enforcement or use insecure parsing.
+      Force specific signing algorithm and guard against alg:none attacks.
+    severity: ERROR
+    languages:
+      - java
+    metadata:
+      category: security
+      subcategory: authentication
+      cwe:
+        - CWE-327
+      owasp:
+        - A07:2025 - Identity and Authentication Failures
+      confidence: MEDIUM
+      references:
+        - https://owasp.org/www-community/attacks/JSON_Web_Token_(JWT)_Cheatsheet_for_Java
+        - https://cwe.mitre.org/data/definitions/327.html
+
+  # ============================================
+  # IP Forgery - IP 伪造
+  # ============================================
+  - id: java-authentication-ip-forgery
+    patterns:
+      - pattern-either:
+          - pattern: |
+              $REQ.getHeader("X-Forwarded-For");
+          - pattern: |
+              $REQ.getHeader("X-Real-IP");
+          - pattern: |
+              $REQ.getHeader("X-Client-IP");
+          - pattern: |
+              if ($REQ.getHeader("X-Forwarded-For").equals(...)) { ... }
+    message: |
+      检测到 IP 伪造风险：直接读取 X-Forwarded-For 等 Header 获取客户端 IP。
+      这些 Header 可被客户端伪造。请确保仅在可信代理后使用，且不依赖 IP 做关键安全决策。
+      IP Forgery detected: Reading X-Forwarded-For or similar headers for client IP.
+      These headers are client-spoofable. Use only behind trusted proxies and avoid IP-based security decisions.
+    severity: WARNING
+    languages:
+      - java
+    metadata:
+      category: security
+      subcategory: authentication
+      cwe:
+        - CWE-290
+      owasp:
+        - A01:2025 - Broken Access Control
+      confidence: MEDIUM
+      references:
+        - https://cwe.mitre.org/data/definitions/290.html
+        - https://nginx.org/en/docs/http/ngx_http_realip_module.html
+
+  # ============================================
+  # JSONP Hijacking - JSONP 劫持
+  # ============================================
+  - id: java-authentication-jsonp-hijacking
+    patterns:
+      - pattern-either:
+          - pattern: |
+              $RESP.getWriter().println($CALLBACK + "(" + $DATA + ")");
+          - pattern: |
+              MappingJacksonValue $MV = new MappingJacksonValue($DATA);
+              ...
+              $MV.setJsonpFunction($CALLBACK);
+          - pattern: |
+              @ResponseBody
+              public String $METHOD(@RequestParam("callback") String $CALLBACK, ...) {
+                ...
+                return $CALLBACK + "(" + ... + ")";
+              }
+    message: |
+      检测到 JSONP 劫持风险：使用 JSONP 方式返回数据，可被跨域脚本读取。
+      请使用 CORS 替代 JSONP，或严格校验 callback 参数格式。
+      JSONP Hijacking detected: Returning data via JSONP, readable by cross-origin scripts.
+      Use CORS instead of JSONP or strictly validate callback parameter format.
+    severity: WARNING
+    languages:
+      - java
+    metadata:
+      category: security
+      subcategory: authentication
+      cwe:
+        - CWE-346
+      owasp:
+        - A01:2025 - Broken Access Control
+      confidence: MEDIUM
+      references:
+        - https://cwe.mitre.org/data/definitions/346.html
+        - https://owasp.org/www-community/attacks/JSONp_hijacking
+
+  # ============================================
+  # URL Whitelist Bypass - URL 白名单绕过
+  # ============================================
+  - id: java-authentication-url-whitelist-bypass
+    patterns:
+      - pattern-either:
+          - pattern: |
+              http.authorizeRequests().antMatchers(...).permitAll();
+          - pattern: |
+              http.authorizeHttpRequests((auth) -> auth.requestMatchers(...).permitAll());
+          - pattern: |
+              $URL.startsWith($REQ.getParameter(...));
+    message: |
+      检测到 URL 白名单绕过风险：使用 antMatchers 或字符串前缀匹配进行 URL 鉴权。
+      请使用 mvcMatchers 替代 antMatchers，并使用 URL 规范化防止路径变体绕过。
+      URL Whitelist Bypass detected: Using antMatchers or string prefix matching for URL authorization.
+      Use mvcMatchers instead of antMatchers and apply URL normalization.
+    severity: WARNING
+    languages:
+      - java
+    metadata:
+      category: security
+      subcategory: authentication
+      cwe:
+        - CWE-20
+      owasp:
+        - A01:2025 - Broken Access Control
+      confidence: MEDIUM
+      references:
+        - https://cwe.mitre.org/data/definitions/20.html
+        - https://portswigger.net/research/url-parse-quandaries
